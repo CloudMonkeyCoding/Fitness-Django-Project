@@ -1,0 +1,105 @@
+########################
+# Python / General
+########################
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+*.pyd
+*.dll
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs / temp
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pkl
+*.tmp
+*.swp
+*.swo
+
+########################
+# Django
+########################
+
+# SQLite database (local dev)
+db.sqlite3
+db.sqlite3-journal
+
+# Media / static (generated)
+media/
+staticfiles/
+static_root/
+collectstatic/
+
+# Django stuff
+*.mo
+*.pot
+
+########################
+# Environment & secrets
+########################
+# Common env files
+.env
+.env.*
+*.env
+
+# Local settings
+settings_local.py
+local_settings.py
+
+########################
+# Testing / coverage
+########################
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+pytestdebug.log
+
+########################
+# IDEs / Editors
+########################
+
+# VS Code
+.vscode/
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+
+# Other editor junk
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+########################
+# OS-specific junk
+########################
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Fitness Progress</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      width: 900px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 30px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      width: 45px;
+    }
+
+    .logo h2 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav button {
+      background-color: #6b0000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav button:hover {
+      background-color: #800000;
+    }
+
+    .profile img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #6b0000;
+    }
+
+    main {
+      padding: 20px 40px;
+    }
+
+    main h2 {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: #f0f0f0;
+      flex: 1;
+      min-width: 180px;
+      text-align: center;
+      border-radius: 8px;
+      padding: 15px 10px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .charts {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .chart-box {
+      background-color: #f8f8f8;
+      flex: 1;
+      border-radius: 8px;
+      height: 250px;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .remarks {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/f/f5/Bulacan_State_University_logo.png" alt="BulSU Logo">
+        <h2>Bulacan State University<br><span style="font-weight:400;">Student Fitness Profile</span></h2>
+      </div>
+      <div class="nav">
+        <button>Dashboard</button>
+        <button>My Profile</button>
+        <div class="profile">
+          <img src="https://i.pravatar.cc/100" alt="Profile">
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <h2>My Fitness Progress</h2>
+
+      <div class="stats">
+        <div class="card">
+          <h3>BMI</h3>
+          <p>23.2 &gt; 21.8<br><small>(Normal)</small></p>
+        </div>
+        <div class="card">
+          <h3>VO₂ MAX</h3>
+          <p>35.4 &gt; 39.8</p>
+        </div>
+        <div class="card">
+          <h3>STRENGTH</h3>
+          <p>20 &gt; 30<br><small>Push-ups</small></p>
+        </div>
+        <div class="card">
+          <h3>ENDURANCE</h3>
+          <p>25 &gt; 30<br><small>laps</small></p>
+        </div>
+      </div>
+
+      <div class="charts">
+        <div class="chart-box">
+          <canvas id="comparisonChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <canvas id="vo2Chart"></canvas>
+        </div>
+      </div>
+
+      <div class="remarks">
+        REMARKS / PROGRESS HISTORY
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // --- Pre vs Post Comparison Chart ---
+    const ctx1 = document.getElementById('comparisonChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['BMI', 'Strength', 'Speed', 'Agility'],
+        datasets: [
+          {
+            label: 'Pre',
+            data: [15, 10, 15, 12],
+            backgroundColor: '#6b0000'
+          },
+          {
+            label: 'Post',
+            data: [12, 22, 14, 10],
+            backgroundColor: '#a03c3c'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom'
+          },
+          title: {
+            display: true,
+            text: 'Pre vs Post Comparison'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // --- VO2 Max Improvement Chart ---
+    const ctx2 = document.getElementById('vo2Chart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['Pre-Test', 'Post-Test', 'Post+Test'],
+        datasets: [{
+          label: 'VO₂ Max',
+          data: [37, 33, 38],
+          borderColor: '#d32f2f',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.3,
+          pointBackgroundColor: '#6b0000'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: 'VO₂ Max Improvement'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false,
+            suggestedMin: 30,
+            suggestedMax: 40
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

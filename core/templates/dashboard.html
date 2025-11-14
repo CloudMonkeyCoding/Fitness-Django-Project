@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bulacan State University | My Fitness Progress</title>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f8f8f8;
+      color: #222;
+      overflow-y: auto;
+    }
+
+    /* ===== Header ===== */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border-bottom: 2px solid #d9d9d9;
+      padding: 10px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-left img {
+      width: 70px;
+      margin-right: 15px;
+    }
+
+    .header-text h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #3b2a0f;
+    }
+
+    .header-text p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-right button {
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .dashboard-btn {
+      background: #8b0000;
+      color: #fff;
+    }
+
+    .dashboard-btn:hover {
+      background: #a00000;
+    }
+
+    .profile-btn {
+      background: #e0e0e0;
+      color: #000;
+    }
+
+    .profile-pic {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+    }
+
+    /* ===== Main Section ===== */
+    main {
+      padding: 30px 80px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    /* ===== Cards Section ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: #f2f2f2;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .card p {
+      font-size: 16px;
+      margin: 8px 0;
+      font-weight: 600;
+    }
+
+    .card small {
+      font-size: 13px;
+      color: #555;
+    }
+
+    /* ===== Chart Section ===== */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .chart-box {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .chart-box h4 {
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
+
+    .remarks {
+      font-weight: bold;
+      font-size: 16px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <img src="images/bsulogo.png" alt="BSU Logo">
+      <div class="header-text">
+        <h3>Bulacan State University</h3>
+        <p>Student Fitness Profile</p>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="dashboard-btn">Dashboard</button>
+      <button class="profile-btn">My Profile</button>
+      <img src="images/profile.jpg" alt="Profile" class="profile-pic">
+    </div>
+  </header>
+
+  <main>
+    <h2>My Fitness Progress</h2>
+
+    <div class="stats">
+      <div class="card">
+        <h3>BMI</h3>
+        <p>23.2 → 21.8</p>
+        <small>(Normal)</small>
+      </div>
+      <div class="card">
+        <h3>VO₂ MAX</h3>
+        <p>35.4 → 39.8</p>
+      </div>
+      <div class="card">
+        <h3>STRENGTH</h3>
+        <p>20 → 30</p>
+        <small>Push-ups</small>
+      </div>
+      <div class="card">
+        <h3>ENDURANCE</h3>
+        <p>25 → 30</p>
+        <small>Laps</small>
+      </div>
+    </div>
+
+    <div class="charts">
+      <div class="chart-box">
+        <h4>Pre vs Post Comparison</h4>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h4>VO₂ Max Improvement</h4>
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+
+    <div class="remarks">
+      REMARKS / PROGRESS HISTORY
+    </div>
+  </main>
+
+  <script>
+    // ===== Bar Chart (Pre vs Post Comparison) =====
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: ['BMI', 'Strength', 'Speed', 'Agility'],
+        datasets: [
+          {
+            label: 'Pre',
+            data: [15, 20, 15, 15],
+            backgroundColor: '#b33a3a',
+          },
+          {
+            label: 'Post',
+            data: [13, 25, 15, 10],
+            backgroundColor: '#999',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+          }
+        }
+      }
+    });
+
+    // ===== Line Chart (VO2 Max Improvement) =====
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: ['Pre-Test', 'Post-Test', 'Post+Test'],
+        datasets: [{
+          label: 'VO₂ Max',
+          data: [36, 33, 38],
+          borderColor: '#b33a3a',
+          backgroundColor: '#b33a3a',
+          fill: false,
+          tension: 0.3,
+          pointStyle: 'circle',
+          pointRadius: 5,
+          pointHoverRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

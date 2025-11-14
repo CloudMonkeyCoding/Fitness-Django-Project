@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Fitness Profile | Bulacan State University</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: white;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-left img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .header-left div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .header-left h2 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-left p {
+      font-size: 13px;
+      color: #333;
+    }
+
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-buttons button {
+      border: none;
+      padding: 8px 18px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .nav-buttons .active {
+      background-color: #6b0000;
+      color: white;
+    }
+
+    .nav-buttons .inactive {
+      background-color: #e3e3e3;
+      color: #000;
+    }
+
+    .nav-buttons img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #6b0000;
+    }
+
+    /* Main Section */
+    .main-content {
+      padding: 30px;
+    }
+
+    .main-content h3 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      text-align: center;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #6b0000;
+      color: white;
+    }
+
+    /* Layout grid for info and charts */
+    .progress-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    /* Left chart area */
+    .chart {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .bar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      height: 180px;
+      margin-top: 15px;
+    }
+
+    .bar div {
+      width: 40px;
+      background-color: #6b0000;
+      border-radius: 5px;
+    }
+
+    .bar .gray {
+      background-color: #ccc;
+    }
+
+    .chart-labels {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    /* Right info section */
+    .info {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .info-box {
+      background-color: #eee;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .info-box span {
+      display: block;
+      font-size: 18px;
+      margin-top: 5px;
+      color: #000;
+    }
+
+    .gray-box {
+      background-color: #ccc;
+      color: #444;
+    }
+
+    .note {
+      font-size: 13px;
+      background-color: #e8e8e8;
+      padding: 12px;
+      border-radius: 10px;
+      color: #333;
+    }
+
+    @media (max-width: 800px) {
+      .progress-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
+        <div>
+          <h2>Bulacan State University</h2>
+          <p>Student Fitness Profile</p>
+        </div>
+      </div>
+      <div class="nav-buttons">
+        <button class="active">Dashboard</button>
+        <button class="inactive">My Profile</button>
+        <img src="https://via.placeholder.com/40" alt="Student Photo">
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main-content">
+      <h3>My Fitness Progress</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Weight</th>
+            <th>BMI Low</th>
+            <th>BMI Range</th>
+            <th>Target Low</th>
+            <th>Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <div class="progress-section">
+        <!-- Chart Placeholder -->
+        <div class="chart">
+          <h4>Weight vs Target Range</h4>
+          <div class="bar">
+            <div style="height:120px;"></div>
+            <div style="height:110px;"></div>
+            <div style="height:105px;" class="gray"></div>
+            <div style="height:90px;" class="gray"></div>
+          </div>
+          <div class="chart-labels">
+            <span>Weight</span>
+            <span>Target Range</span>
+          </div>
+        </div>
+
+        <!-- Info Boxes -->
+        <div class="info">
+          <div class="info-box">Height<span>5'11</span></div>
+
+          <div class="info-box gray-box">Target Weight (Min)<span>MIN</span></div>
+          <div class="info-box gray-box">Target Weight (Max)<span>MAX</span></div>
+
+          <div class="info-box">Normal BMI Range<span>18.5 - 24.9</span></div>
+          <div class="info-box">Current Weight Loss<span>—</span></div>
+
+          <div class="note">
+            Please enter all data in Gray (Height, Target Weight Min/Max).
+            Input weight in rows B2 and B3 to calculate your progress.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

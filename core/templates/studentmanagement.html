@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management | Bulacan State University</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f2f4f8;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #6b0000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 30px;
+    }
+
+    .sidebar img {
+      width: 90px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .sidebar h2 {
+      font-size: 14px;
+      font-weight: normal;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .nav {
+      width: 100%;
+    }
+
+    .nav a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      text-align: left;
+      font-weight: bold;
+      font-size: 15px;
+      border-left: 5px solid transparent;
+      transition: 0.3s;
+    }
+
+    .nav a:hover, .nav a.active {
+      background-color: #a10000;
+      border-left: 5px solid #fff;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .main h1 {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #f0f0f0;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder {
+      color: #666;
+    }
+
+    /* Filter Section */
+    .filters {
+      display: flex;
+      justify-content: space-between;
+      background: #f8f8f8;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .filters select {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background-color: white;
+    }
+
+    /* Table Section */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #6b0000;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .view-btn {
+      background-color: #6b0000;
+      color: white;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .view-btn:hover {
+      background-color: #a10000;
+    }
+
+    /* Bottom Buttons */
+    .bottom-buttons {
+      text-align: center;
+    }
+
+    .bottom-buttons button {
+      background-color: #6b0000;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      margin: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .bottom-buttons button:hover {
+      background-color: #a10000;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        flex-direction: row;
+        justify-content: space-around;
+        height: auto;
+        width: 100%;
+      }
+
+      .main {
+        padding: 15px;
+      }
+
+      .filters {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
+    <h2>Bulacan State University</h2>
+    <div class="nav">
+      <a href="#">Dashboard</a>
+      <a href="#" class="active">Student Management</a>
+      <a href="#">Class Analytics</a>
+      <a href="#">Log out</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <h1>Student Management</h1>
+
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Search student by name or sections...">
+    </div>
+
+    <div class="filters">
+      <label>
+        Filter by Section
+        <select>
+          <option>All</option>
+          <option>4E-G1</option>
+          <option>4B-G1</option>
+        </select>
+      </label>
+      <label>
+        Sort by
+        <select>
+          <option>Name</option>
+          <option>BMI</option>
+          <option>VO2 Max</option>
+          <option>Last Update</option>
+        </select>
+      </label>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Section</th>
+          <th>BMI</th>
+          <th>VO₂ Max</th>
+          <th>Last Update</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ariel Santos</td>
+          <td>4E-G1</td>
+          <td>21.3</td>
+          <td>35</td>
+          <td>Oct 26, 2025</td>
+          <td><button class="view-btn">View</button></td>
+        </tr>
+        <tr>
+          <td>Charlene Joy</td>
+          <td>4E-G1</td>
+          <td>28.5</td>
+          <td>50</td>
+          <td>Oct 24, 2025</td>
+          <td><button class="view-btn">View</button></td>
+        </tr>
+        <tr>
+          <td>Tolentino</td>
+          <td>4B-G1</td>
+          <td>18.5</td>
+          <td>28</td>
+          <td>Oct 20, 2025</td>
+          <td><button class="view-btn">View</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="bottom-buttons">
+      <button>Refresh List</button>
+      <button>Export CSV</button>
+    </div>
+  </div>
+</body>
+</html>
