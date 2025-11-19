@@ -111,6 +111,27 @@
       margin-bottom: 20px;
     }
 
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+    }
+
+    .actions a {
+      background-color: #6b0000;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .actions a:hover {
+      background-color: #8a0a0a;
+      transform: translateY(-1px);
+    }
+
     /* Table */
     table {
       width: 100%;
@@ -239,6 +260,10 @@
     <!-- Main -->
     <div class="main-content">
       <h3>My Fitness Progress</h3>
+
+      <div class="actions">
+        <a href="{% url 'pretest_entry' %}">Add Pre-Test Entry</a>
+      </div>
 
       <table>
         <thead>

@@ -236,45 +236,43 @@
   <!-- ===== Pre-Test Form ===== -->
   <div class="form-section">
     <div class="form-header">Pre-Test</div>
-    <form>
-      <div>
-        <label>Height (cm)</label>
-        <input type="text" value="158 cm" readonly>
-      </div>
-      <div>
-        <label>Weight (kg)</label>
-        <input type="text" value="52 kg" readonly>
-      </div>
-      <div>
-        <label>VO₂ Max</label>
-        <input type="text" value="39.1" readonly>
-      </div>
-      <div>
-        <label>Flexibility</label>
-        <input type="text" value="20 cm" readonly>
-      </div>
-      <div>
-        <label>Strength</label>
-        <select>
-          <option selected>20 push-ups</option>
-          <option>25 push-ups</option>
-          <option>30 push-ups</option>
-        </select>
-      </div>
-      <div>
-        <label>Agility</label>
-        <input type="text" value="12" readonly>
-      </div>
-      <div>
-        <label>Speed</label>
-        <input type="text" value="7" readonly>
-      </div>
-      <div>
-        <label>Endurance</label>
-        <input type="text" value="30" readonly>
-      </div>
+    <form method="post" novalidate>
+      {% csrf_token %}
 
-      <button class="btn-next" type="button">Next</button>
+      {% if messages %}
+        <div class="form-row" style="grid-column: span 3;">
+          {% for message in messages %}
+            <div class="success" style="background:#e6f4ea;border:1px solid #c3e6cb;color:#155724;padding:12px 15px;border-radius:8px;">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        <div class="form-row" style="grid-column: span 3;">
+          <div class="error-list" style="background:#f8d7da;border:1px solid #f5c6cb;color:#721c24;padding:12px 15px;border-radius:8px;">
+            {% for error in form.non_field_errors %}
+              <div>{{ error }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+          {% endif %}
+          {% if field.errors %}
+            {% for error in field.errors %}
+              <div style="color:#c00;font-size:12px;margin-top:6px;">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button class="btn-next" type="submit">Save Pre-Test Data</button>
     </form>
   </div>
 </body>
