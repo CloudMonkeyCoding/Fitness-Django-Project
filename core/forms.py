@@ -81,7 +81,7 @@ class StudentLoginForm(forms.Form):
         return cleaned_data
 
 
-class PreTestForm(forms.Form):
+class BaseTestForm(forms.Form):
     height_cm = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -141,6 +141,8 @@ class PreTestForm(forms.Form):
         label="Endurance",
     )
 
+    test_type: str = ""
+
     def clean(self):
         cleaned_data = super().clean()
 
@@ -166,7 +168,7 @@ class PreTestForm(forms.Form):
 
         return FitnessTestEntry.objects.create(
             student=student,
-            test_type=FitnessTestEntry.PRETEST,
+            test_type=self.test_type,
             bmi=data["bmi"],
             vo2_max=data["vo2_max"],
             flexibility=data["flexibility"],
@@ -175,3 +177,11 @@ class PreTestForm(forms.Form):
             speed=data["speed"],
             endurance=data["endurance"],
         )
+
+
+class PreTestForm(BaseTestForm):
+    test_type = FitnessTestEntry.PRETEST
+
+
+class PostTestForm(BaseTestForm):
+    test_type = FitnessTestEntry.POSTTEST

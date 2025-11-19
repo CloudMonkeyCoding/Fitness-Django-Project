@@ -8,7 +8,7 @@ from django.db import connection
 from django.db.utils import OperationalError
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import PreTestForm, StudentLoginForm, StudentSignupForm
+from .forms import PostTestForm, PreTestForm, StudentLoginForm, StudentSignupForm
 from .models import FitnessTestEntry, StudentProfile
 
 # Create your views here.
@@ -97,7 +97,18 @@ def pre_test_form(request):
 
 @login_required
 def post_test_entry(request):
-    return render(request, "posttest.html")
+    student_profile = get_object_or_404(StudentProfile, user=request.user)
+
+    if request.method == "POST":
+        form = PostTestForm(request.POST)
+        if form.is_valid():
+            form.save(student_profile)
+            messages.success(request, "Post-test data saved successfully.")
+            return redirect("student_progress")
+    else:
+        form = PostTestForm()
+
+    return render(request, "posttest.html", {"form": form})
 
 
 def student_management(request):
