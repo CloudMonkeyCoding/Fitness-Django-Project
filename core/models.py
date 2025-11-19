@@ -77,3 +77,12 @@ class Remark(models.Model):
     def __str__(self):
         who = self.author.username if self.author else "System"
         return f"Remark for {self.student} by {who} on {self.created_at.date()}"
+
+from django.db import models
+
+class AdminAccount(models.Model):
+    username = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=128)  # You can hash it later if needed
+
+    def __str__(self):
+        return self.username

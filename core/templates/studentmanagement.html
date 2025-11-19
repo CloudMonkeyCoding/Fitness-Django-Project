@@ -34,6 +34,12 @@
       width: 90px;
       border-radius: 50%;
       margin-bottom: 10px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .sidebar img:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .sidebar h2 {
@@ -48,20 +54,59 @@
     }
 
     .nav a {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       color: white;
       text-decoration: none;
-      padding: 15px;
+      padding: 15px 20px;
       text-align: left;
       font-weight: bold;
       font-size: 15px;
       border-left: 5px solid transparent;
-      transition: 0.3s;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .nav a:hover, .nav a.active {
+    .nav a::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: width 0.3s ease;
+      z-index: 0;
+    }
+
+    .nav a:hover::before {
+      width: 100%;
+    }
+
+    .nav a:hover {
       background-color: #a10000;
       border-left: 5px solid #fff;
+      padding-left: 25px;
+      transform: translateX(5px);
+    }
+
+    .nav a.active {
+      background-color: #a10000;
+      border-left: 5px solid #fff;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav a span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      position: relative;
+      z-index: 1;
     }
 
     /* Main */
@@ -78,14 +123,63 @@
       margin-bottom: 25px;
     }
 
+    /* Stats Cards */
+    .stats-cards {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 200px;
+      background: linear-gradient(135deg, #6b0000 0%, #a10000 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+
+    .stat-card h3 {
+      font-size: 14px;
+      font-weight: normal;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .stat-card .number {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-card .change {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
     /* Search Bar */
     .search-bar {
       display: flex;
       align-items: center;
-      background: #f0f0f0;
-      padding: 10px 15px;
-      border-radius: 5px;
+      background: white;
+      padding: 12px 15px;
+      border-radius: 8px;
       margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .search-bar:focus-within {
+      box-shadow: 0 4px 12px rgba(107, 0, 0, 0.15);
     }
 
     .search-bar input {
@@ -94,85 +188,186 @@
       background: transparent;
       font-size: 14px;
       width: 100%;
+      padding-left: 10px;
     }
 
     .search-bar input::placeholder {
-      color: #666;
+      color: #999;
+    }
+
+    .search-icon {
+      color: #6b0000;
+      font-size: 18px;
     }
 
     /* Filter Section */
     .filters {
       display: flex;
       justify-content: space-between;
-      background: #f8f8f8;
-      padding: 10px 15px;
-      border-radius: 5px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
       margin-bottom: 20px;
+      gap: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .filter-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
     }
 
     .filters select {
       padding: 8px 12px;
       border-radius: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
       font-size: 14px;
       background-color: white;
+      cursor: pointer;
+      transition: border-color 0.3s ease;
+    }
+
+    .filters select:focus {
+      outline: none;
+      border-color: #6b0000;
     }
 
     /* Table Section */
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .table-container {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       margin-bottom: 20px;
     }
 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
     th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
+      padding: 15px;
       font-size: 14px;
       text-align: left;
+      border-bottom: 1px solid #f0f0f0;
     }
 
     th {
       background-color: #6b0000;
       color: white;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
     }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
+    tbody tr {
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    tbody tr:hover {
+      background-color: #f8f8f8;
+      transform: scale(1.01);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .status-normal {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-warning {
+      background-color: #fff3e0;
+      color: #f57c00;
+    }
+
+    .status-alert {
+      background-color: #ffebee;
+      color: #c62828;
     }
 
     .view-btn {
       background-color: #6b0000;
       color: white;
       border: none;
-      padding: 5px 12px;
+      padding: 6px 16px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
+      font-size: 13px;
+      transition: all 0.3s ease;
     }
 
     .view-btn:hover {
       background-color: #a10000;
+      transform: scale(1.05);
+    }
+
+    .view-btn:active {
+      transform: scale(0.95);
     }
 
     /* Bottom Buttons */
     .bottom-buttons {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .bottom-buttons button {
       background-color: #6b0000;
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      margin: 5px;
+      padding: 12px 24px;
+      border-radius: 8px;
       font-weight: bold;
+      font-size: 14px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .bottom-buttons button:hover {
       background-color: #a10000;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(107, 0, 0, 0.3);
+    }
+
+    .bottom-buttons button:active {
+      transform: translateY(0);
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .loading.active {
+      display: block;
     }
 
     /* Responsive */
@@ -186,6 +381,16 @@
         justify-content: space-around;
         height: auto;
         width: 100%;
+        padding: 15px;
+      }
+
+      .nav {
+        display: flex;
+        gap: 10px;
+      }
+
+      .nav a span:last-child {
+        display: none;
       }
 
       .main {
@@ -194,7 +399,18 @@
 
       .filters {
         flex-direction: column;
-        gap: 10px;
+      }
+
+      .stats-cards {
+        flex-direction: column;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        min-width: 600px;
       }
     }
   </style>
@@ -203,84 +419,239 @@
   <div class="sidebar">
     <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
     <h2>Bulacan State University</h2>
-    <div class="nav">
-      <a href="#">Dashboard</a>
-      <a href="#" class="active">Student Management</a>
-      <a href="#">Class Analytics</a>
-      <a href="#">Log out</a>
+     <div class="nav">
+        <a href="{% url 'admin_page' %}">Dashboard</a>
+        <a href="{% url 'student_management' %}" class="active">Student Management</a>
+        <a href="{% url 'class_analytics' %}">Class Analytics</a>
+         <a href="{% url 'signup' %}">Log out</a>
     </div>
   </div>
 
   <div class="main">
     <h1>Student Management</h1>
 
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <h3>Total Students</h3>
+        <div class="number" id="totalStudents">156</div>
+        <div class="change">↑ 12 from last month</div>
+      </div>
+      <div class="stat-card">
+        <h3>Active Sections</h3>
+        <div class="number" id="totalSections">8</div>
+        <div class="change">2 new sections</div>
+      </div>
+      <div class="stat-card">
+        <h3>Avg BMI</h3>
+        <div class="number" id="avgBMI">22.4</div>
+        <div class="change">↓ 0.3 improved</div>
+      </div>
+      <div class="stat-card">
+        <h3>Avg VO₂ Max</h3>
+        <div class="number" id="avgVO2">38.5</div>
+        <div class="change">↑ 2.1 improved</div>
+      </div>
+    </div>
+
     <div class="search-bar">
-      <input type="text" placeholder="🔍 Search student by name or sections...">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search student by name or section...">
     </div>
 
     <div class="filters">
-      <label>
-        Filter by Section
-        <select>
-          <option>All</option>
-          <option>4E-G1</option>
-          <option>4B-G1</option>
+      <div class="filter-group">
+        <label>Filter by Section</label>
+        <select id="sectionFilter">
+          <option value="all">All Sections</option>
+          <option value="4E-G1">4E-G1</option>
+          <option value="4B-G1">4B-G1</option>
+          <option value="3A-G2">3A-G2</option>
         </select>
-      </label>
-      <label>
-        Sort by
-        <select>
-          <option>Name</option>
-          <option>BMI</option>
-          <option>VO2 Max</option>
-          <option>Last Update</option>
+      </div>
+      <div class="filter-group">
+        <label>Sort by</label>
+        <select id="sortBy">
+          <option value="name">Name</option>
+          <option value="bmi">BMI</option>
+          <option value="vo2">VO₂ Max</option>
+          <option value="date">Last Update</option>
         </select>
-      </label>
+      </div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Student Name</th>
-          <th>Section</th>
-          <th>BMI</th>
-          <th>VO₂ Max</th>
-          <th>Last Update</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Ariel Santos</td>
-          <td>4E-G1</td>
-          <td>21.3</td>
-          <td>35</td>
-          <td>Oct 26, 2025</td>
-          <td><button class="view-btn">View</button></td>
-        </tr>
-        <tr>
-          <td>Charlene Joy</td>
-          <td>4E-G1</td>
-          <td>28.5</td>
-          <td>50</td>
-          <td>Oct 24, 2025</td>
-          <td><button class="view-btn">View</button></td>
-        </tr>
-        <tr>
-          <td>Tolentino</td>
-          <td>4B-G1</td>
-          <td>18.5</td>
-          <td>28</td>
-          <td>Oct 20, 2025</td>
-          <td><button class="view-btn">View</button></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="loading" id="loading">Loading students...</div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Section</th>
+            <th>BMI</th>
+            <th>VO₂ Max</th>
+            <th>Status</th>
+            <th>Last Update</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentTable">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
 
     <div class="bottom-buttons">
-      <button>Refresh List</button>
-      <button>Export CSV</button>
+      <button onclick="refreshList()">
+        <span>🔄</span>
+        <span>Refresh List</span>
+      </button>
+      <button onclick="exportCSV()">
+        <span>📥</span>
+        <span>Export CSV</span>
+      </button>
+      <button onclick="addStudent()">
+        <span>➕</span>
+        <span>Add Student</span>
+      </button>
     </div>
   </div>
+
+  <script>
+    // Mock student data
+    let students = [
+      { name: "Ariel Santos", section: "4E-G1", bmi: 21.3, vo2: 35, date: "2025-10-26", status: "normal" },
+      { name: "Charlene Joy", section: "4E-G1", bmi: 28.5, vo2: 50, date: "2025-10-24", status: "warning" },
+      { name: "Tolentino", section: "4B-G1", bmi: 18.5, vo2: 28, date: "2025-10-20", status: "alert" },
+      { name: "Maria Garcia", section: "4E-G1", bmi: 22.1, vo2: 42, date: "2025-10-28", status: "normal" },
+      { name: "John Reyes", section: "4B-G1", bmi: 24.3, vo2: 38, date: "2025-10-25", status: "normal" },
+      { name: "Sofia Cruz", section: "3A-G2", bmi: 20.8, vo2: 45, date: "2025-10-27", status: "normal" },
+      { name: "Miguel Torres", section: "3A-G2", bmi: 26.7, vo2: 32, date: "2025-10-23", status: "warning" },
+      { name: "Isabella Ramos", section: "4E-G1", bmi: 19.2, vo2: 48, date: "2025-10-29", status: "normal" }
+    ];
+
+    let filteredStudents = [...students];
+
+    // Get DOM elements
+    const searchInput = document.getElementById('searchInput');
+    const sectionFilter = document.getElementById('sectionFilter');
+    const sortBy = document.getElementById('sortBy');
+    const studentTable = document.getElementById('studentTable');
+    const loading = document.getElementById('loading');
+
+    // Event listeners
+    searchInput.addEventListener('input', filterStudents);
+    sectionFilter.addEventListener('change', filterStudents);
+    sortBy.addEventListener('change', sortStudents);
+
+    // Format date
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // Get status badge
+    function getStatusBadge(status) {
+      const labels = {
+        normal: 'Normal',
+        warning: 'Warning',
+        alert: 'Alert'
+      };
+      return `<span class="status-badge status-${status}">${labels[status]}</span>`;
+    }
+
+    // Render table
+    function renderTable() {
+      studentTable.innerHTML = filteredStudents.map(student => `
+        <tr onclick="viewStudent('${student.name}')">
+          <td><strong>${student.name}</strong></td>
+          <td>${student.section}</td>
+          <td>${student.bmi}</td>
+          <td>${student.vo2}</td>
+          <td>${getStatusBadge(student.status)}</td>
+          <td>${formatDate(student.date)}</td>
+          <td>
+            <button class="view-btn" onclick="event.stopPropagation(); viewStudent('${student.name}')">View</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Filter students
+    function filterStudents() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const section = sectionFilter.value;
+
+      filteredStudents = students.filter(student => {
+        const matchesSearch = student.name.toLowerCase().includes(searchTerm) ||
+                             student.section.toLowerCase().includes(searchTerm);
+        const matchesSection = section === 'all' || student.section === section;
+        return matchesSearch && matchesSection;
+      });
+
+      sortStudents();
+    }
+
+    // Sort students
+    function sortStudents() {
+      const sortValue = sortBy.value;
+
+      filteredStudents.sort((a, b) => {
+        switch(sortValue) {
+          case 'name':
+            return a.name.localeCompare(b.name);
+          case 'bmi':
+            return b.bmi - a.bmi;
+          case 'vo2':
+            return b.vo2 - a.vo2;
+          case 'date':
+            return new Date(b.date) - new Date(a.date);
+          default:
+            return 0;
+        }
+      });
+
+      renderTable();
+    }
+
+    // View student details
+    function viewStudent(name) {
+      alert(`Viewing details for: ${name}\n\nThis would open a detailed view page.`);
+    }
+
+    // Refresh list
+    function refreshList() {
+      loading.classList.add('active');
+      setTimeout(() => {
+        loading.classList.remove('active');
+        filterStudents();
+        alert('Student list refreshed!');
+      }, 1000);
+    }
+
+    // Export CSV
+    function exportCSV() {
+      const csv = [
+        ['Name', 'Section', 'BMI', 'VO2 Max', 'Status', 'Last Update'],
+        ...filteredStudents.map(s => [s.name, s.section, s.bmi, s.vo2, s.status, s.date])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'students.csv';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+
+    // Add student
+    function addStudent() {
+      alert('Add Student functionality would open a form here.');
+    }
+
+    // Initialize
+    renderTable();
+  </script>
 </body>
 </html>

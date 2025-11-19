@@ -1,3 +1,5 @@
+
+from django.core.checks import messages
 from decimal import Decimal, InvalidOperation
 from typing import List, Optional
 
@@ -11,7 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
 from .forms import PostTestForm, PreTestForm, StudentLoginForm, StudentSignupForm
-from .models import FitnessTestEntry, StudentProfile
+from .models import FitnessTestEntry, StudentProfile, AdminAccount
 
 # Create your views here.
 
@@ -345,6 +347,40 @@ def view_student(request):
     return render(request, "viewstudent.html")
 
 
-def admin_page(request):
+def custom_admin_page(request):
     # custom admin page (NOT Django’s /admin/ site)
     return render(request, "admin.html")
+
+
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not username or not password:
+            messages.error(request, 'Please enter both username and password')
+            return render(request, 'login.html')
+
+        try:
+            # Try to get the admin account
+            admin = AdminAccount.objects.get(username=username)
+
+            # Check if password matches
+            if admin.password == password:
+                # Login successful
+                request.session['admin_id'] = admin.id
+                request.session['admin_username'] = admin.username
+                return redirect('admin_page')
+            else:
+                messages.error(request, 'Invalid password')
+                return render(request, 'login.html')
+
+        except AdminAccount.DoesNotExist:
+            messages.error(request, 'Username does not exist')
+            return render(request, 'login.html')
+
+    return render(request, 'login.html')
+def admin_page(request):
+    if 'admin_id' not in request.session:
+        return redirect('admin_login')
+    return render(request, 'admin_page.html')
