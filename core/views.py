@@ -38,7 +38,15 @@ def latest_valid_entry(student_profile: StudentProfile, test_type: str):
     with connection.cursor() as cursor:
         cursor.execute(
             """
-            SELECT id, bmi, vo2_max, flexibility, strength, agility, speed, endurance
+            SELECT
+                id,
+                CAST(bmi AS TEXT),
+                CAST(vo2_max AS TEXT),
+                CAST(flexibility AS TEXT),
+                CAST(strength AS TEXT),
+                CAST(agility AS TEXT),
+                CAST(speed AS TEXT),
+                CAST(endurance AS TEXT)
             FROM core_fitnesstestentry
             WHERE student_id = %s AND test_type = %s
             ORDER BY created_at DESC
