@@ -276,6 +276,53 @@ def student_progress(request):
         None,
     )
 
+    chart_metrics = []
+
+    metric_fields = [
+        ("BMI", "bmi"),
+        ("VO₂ Max", "vo2_max"),
+        ("Strength", "strength"),
+        ("Endurance", "endurance"),
+    ]
+
+    max_value = Decimal("0")
+    for _, field in metric_fields:
+        for source in (pre_test_entry, post_test_entry):
+            value = getattr(source, field, None) if source else None
+            if value is not None:
+                try:
+                    as_decimal = Decimal(str(value))
+                except InvalidOperation:
+                    continue
+                if as_decimal > max_value:
+                    max_value = as_decimal
+
+    if max_value == 0:
+        max_value = Decimal("1")
+
+    chart_height = Decimal("160")
+    for label, field in metric_fields:
+        pre_value = getattr(pre_test_entry, field, None) if pre_test_entry else None
+        post_value = getattr(post_test_entry, field, None) if post_test_entry else None
+
+        def height(value):
+            if value is None:
+                return 0
+            try:
+                return int((Decimal(str(value)) / max_value) * chart_height)
+            except InvalidOperation:
+                return 0
+
+        chart_metrics.append(
+            {
+                "label": label,
+                "pre_value": pre_value,
+                "post_value": post_value,
+                "pre_height": height(pre_value),
+                "post_height": height(post_value),
+            }
+        )
+
     return render(
         request,
         "studentprogress.html",
@@ -283,6 +330,7 @@ def student_progress(request):
             "pre_test": pre_test_entry,
             "post_test": post_test_entry,
             "test_entries": test_entries,
+            "chart_metrics": chart_metrics,
         },
     )
 

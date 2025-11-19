@@ -170,28 +170,70 @@
       text-align: center;
     }
 
-    .bar {
+    .chart h4 {
+      margin-bottom: 10px;
+    }
+
+    .chart-rows {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .metric-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 140px;
+      gap: 6px;
+    }
+
+    .metric-label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .metric-bars {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      height: 180px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .metric-bar {
+      position: relative;
+      width: 48px;
+      border-radius: 6px 6px 0 0;
+      background-color: #6b0000;
       display: flex;
       align-items: flex-end;
-      justify-content: space-around;
-      height: 180px;
-      margin-top: 15px;
+      justify-content: center;
+      transition: height 0.3s ease;
     }
 
-    .bar div {
-      width: 40px;
-      background-color: #6b0000;
-      border-radius: 5px;
+    .metric-bar.post {
+      background-color: #888;
     }
 
-    .bar .gray {
-      background-color: #ccc;
+    .bar-value {
+      position: absolute;
+      top: -22px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: nowrap;
     }
 
-    .chart-labels {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 10px;
+    .bar-tag {
+      position: absolute;
+      bottom: -18px;
+      font-size: 11px;
+      color: #333;
       font-weight: bold;
     }
 
@@ -310,17 +352,28 @@
       <div class="progress-section">
         <!-- Chart Placeholder -->
         <div class="chart">
-          <h4>Weight vs Target Range</h4>
-          <div class="bar">
-            <div style="height:120px;"></div>
-            <div style="height:110px;"></div>
-            <div style="height:105px;" class="gray"></div>
-            <div style="height:90px;" class="gray"></div>
-          </div>
-          <div class="chart-labels">
-            <span>Weight</span>
-            <span>Target Range</span>
-          </div>
+          <h4>Pre vs Post Progress</h4>
+          {% if chart_metrics %}
+            <div class="chart-rows">
+              {% for metric in chart_metrics %}
+                <div class="metric-column">
+                  <div class="metric-label">{{ metric.label }}</div>
+                  <div class="metric-bars">
+                    <div class="metric-bar pre" style="height: {{ metric.pre_height }}px;">
+                      <span class="bar-value">{% if metric.pre_value is not None %}{{ metric.pre_value|floatformat:2 }}{% else %}—{% endif %}</span>
+                      <span class="bar-tag">Pre</span>
+                    </div>
+                    <div class="metric-bar post" style="height: {{ metric.post_height }}px;">
+                      <span class="bar-value">{% if metric.post_value is not None %}{{ metric.post_value|floatformat:2 }}{% else %}—{% endif %}</span>
+                      <span class="bar-tag">Post</span>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No valid test data available yet.</p>
+          {% endif %}
         </div>
 
         <!-- Info Boxes -->
