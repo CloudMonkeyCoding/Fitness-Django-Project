@@ -1,9 +1,11 @@
 from decimal import Decimal, InvalidOperation
 
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.management import call_command
 from django.db import connection
+from django.db.utils import OperationalError
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PreTestForm, StudentLoginForm, StudentSignupForm
@@ -11,10 +13,24 @@ from .models import FitnessTestEntry, StudentProfile
 
 # Create your views here.
 
+
+def ensure_auth_tables():
+    """Run migrations lazily if the auth tables are missing."""
+
+    User = get_user_model()
+    try:
+        User.objects.exists()
+    except OperationalError:
+        call_command("migrate", interactive=False, run_syncdb=True)
+
+
 def dashboard(request):
     return render(request, "dashboard.html")
 
+
 def signup(request):
+    ensure_auth_tables()
+
     if request.method == "POST":
         signup_form = StudentSignupForm(request.POST)
         login_form = StudentLoginForm()  # empty, for the login panel
@@ -32,7 +48,10 @@ def signup(request):
         "login_form": login_form,     # login form
     })
 
+
 def login_view(request):
+    ensure_auth_tables()
+
     if request.method == "POST":
         login_form = StudentLoginForm(request.POST)
         signup_form = StudentSignupForm()  # empty, for the register panel
