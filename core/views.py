@@ -1,8 +1,9 @@
-from decimal import InvalidOperation
+from decimal import Decimal, InvalidOperation
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PreTestForm, StudentLoginForm, StudentSignupForm
@@ -89,20 +90,27 @@ def student_progress(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
 
     def latest_valid_entry(test_type):
-        for entry in student_profile.tests.filter(test_type=test_type):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT id, bmi, vo2_max, flexibility, strength, agility, speed, endurance
+                FROM core_fitnesstestentry
+                WHERE student_id = %s AND test_type = %s
+                ORDER BY created_at DESC
+                """,
+                [student_profile.id, test_type],
+            )
+            rows = cursor.fetchall()
+
+        for row in rows:
+            entry_id, *metric_values = row
             try:
-                _ = (
-                    entry.bmi,
-                    entry.vo2_max,
-                    entry.flexibility,
-                    entry.strength,
-                    entry.agility,
-                    entry.speed,
-                    entry.endurance,
-                )
-            except InvalidOperation:
+                # Validate that all metrics can be converted to Decimal before fetching the model instance.
+                [Decimal(str(value)) for value in metric_values]
+            except (InvalidOperation, TypeError, ValueError):
                 continue
-            return entry
+
+            return FitnessTestEntry.objects.filter(pk=entry_id).first()
         return None
 
     pre_test_entry = latest_valid_entry(FitnessTestEntry.PRETEST)
