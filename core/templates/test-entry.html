@@ -264,23 +264,25 @@
         {% csrf_token %}
         <input type="hidden" name="active_tab" value="post">
 
-        <div class="helper-text">
-          {% if messages %}
-            <div class="messages">
-              {% for message in messages %}
-                <div>{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+        {% if messages or post_form.non_field_errors %}
+          <div class="helper-text">
+            {% if messages %}
+              <div class="messages">
+                {% for message in messages %}
+                  <div>{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
 
-          {% if post_form.non_field_errors %}
-            <div>
-              {% for error in post_form.non_field_errors %}
-                <div class="error">{{ error }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        </div>
+            {% if post_form.non_field_errors %}
+              <div>
+                {% for error in post_form.non_field_errors %}
+                  <div class="error">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
 
         {% for field in post_form %}
           <div>
@@ -305,23 +307,25 @@
         {% csrf_token %}
         <input type="hidden" name="active_tab" value="pre">
 
-        <div class="helper-text">
-          {% if messages %}
-            <div class="messages">
-              {% for message in messages %}
-                <div>{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+        {% if messages or pre_form.non_field_errors %}
+          <div class="helper-text">
+            {% if messages %}
+              <div class="messages">
+                {% for message in messages %}
+                  <div>{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
 
-          {% if pre_form.non_field_errors %}
-            <div>
-              {% for error in pre_form.non_field_errors %}
-                <div class="error">{{ error }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        </div>
+            {% if pre_form.non_field_errors %}
+              <div>
+                {% for error in pre_form.non_field_errors %}
+                  <div class="error">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
 
         {% for field in pre_form %}
           <div>
