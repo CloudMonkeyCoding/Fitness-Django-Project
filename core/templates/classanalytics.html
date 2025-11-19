@@ -19,6 +19,7 @@
       overflow: hidden;
     }
 
+    /* Sidebar */
     .sidebar {
       width: 220px;
       background-color: #6b0000;
@@ -47,61 +48,23 @@
     }
 
     .nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: block;
       color: white;
       text-decoration: none;
-      padding: 15px 20px;
+      padding: 15px;
       text-align: left;
       font-weight: bold;
       font-size: 15px;
       border-left: 5px solid transparent;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      transition: 0.3s;
     }
 
-    .nav a::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: width 0.3s ease;
-      z-index: 0;
-    }
-
-    .nav a:hover::before {
-      width: 100%;
-    }
-
-    .nav a:hover {
+    .nav a:hover, .nav a.active {
       background-color: #a10000;
       border-left: 5px solid #fff;
-      padding-left: 25px;
-      transform: translateX(5px);
     }
 
-    .nav a.active {
-      background-color: #a10000;
-      border-left: 5px solid #fff;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .nav a span {
-      position: relative;
-      z-index: 1;
-    }
-
-    .nav-icon {
-      font-size: 18px;
-      position: relative;
-      z-index: 1;
-    }
-
+    /* Main */
     .main {
       flex: 1;
       padding: 30px;
@@ -115,66 +78,8 @@
       margin-bottom: 30px;
     }
 
-    .top-filters {
-      display: flex;
-      justify-content: space-between;
-      background: #f8f8f8;
-      padding: 15px;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      gap: 20px;
-    }
-
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      flex: 1;
-    }
-
-    .filter-group label {
-      font-weight: 600;
-      color: #333;
-      font-size: 14px;
-    }
-
-    .filter-controls {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .top-filters select {
-      flex: 1;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .reset-btn {
-      padding: 8px 12px;
-      background-color: #6b0000;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      transition: 0.2s;
-      white-space: nowrap;
-    }
-
-    .reset-btn:hover {
-      background-color: #a10000;
-    }
-
-    .reset-btn:active {
-      transform: scale(0.95);
-    }
-
-    .filter-cards {
+    /* Filter Cards */
+    .filters {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -200,9 +105,24 @@
 
     .filter-card p {
       font-size: 15px;
-      font-weight: 600;
+      margin-bottom: 12px;
     }
 
+    .filter-card button {
+      background-color: white;
+      color: #6b0000;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .filter-card button:hover {
+      background-color: #f0eaea;
+    }
+
+    /* Charts Section */
     .charts {
       display: flex;
       justify-content: space-around;
@@ -215,52 +135,45 @@
       border-radius: 10px;
       width: 30%;
       min-width: 260px;
-      padding: 20px;
+      padding: 15px;
       text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .chart h4 {
-      font-size: 16px;
+      font-size: 15px;
       margin-bottom: 15px;
-      color: #333;
     }
 
+    /* Static Bar Graphs */
     .bar-container {
       height: 150px;
       display: flex;
       align-items: flex-end;
       justify-content: space-around;
-      margin-top: 20px;
-    }
-
-    .bar-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
     }
 
     .bar {
-      width: 50px;
+      width: 40px;
       background-color: #e53935;
       border-radius: 6px 6px 0 0;
-      transition: height 0.5s ease;
     }
 
-    .bar-label {
-      font-size: 11px;
-      color: #666;
-      font-weight: 600;
-    }
+    .bar1 { height: 90px; }
+    .bar2 { height: 140px; }
 
+    /* Donut Chart (Pure CSS) */
     .donut {
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      margin: 20px auto 10px;
+      background: conic-gradient(
+        #e53935 0deg 120deg,
+        #ffa000 120deg 240deg,
+        #f5f5f5 240deg 360deg
+      );
+      margin: 0 auto 10px;
       position: relative;
-      transition: background 0.5s ease;
     }
 
     .donut::before {
@@ -295,19 +208,7 @@
         padding: 15px;
       }
 
-      .top-filters {
-        flex-direction: column;
-      }
-
-      .filter-controls {
-        flex-direction: row;
-      }
-
-      .reset-btn {
-        min-width: 60px;
-      }
-
-      .filter-cards {
+      .filters {
         flex-direction: column;
       }
 
@@ -327,69 +228,31 @@
     <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
     <h2>Bulacan State University</h2>
     <div class="nav">
-         <a href="{% url 'admin_page' %}">Dashboard</a>
-         <a href="{% url 'student_management' %}">Student Management</a>
-         <a href="{% url 'class_analytics' %}" class="active">Class Analytics</a>
-         <a href="{% url 'signup' %}">Log out</a>
+      <a href="#">Dashboard</a>
+      <a href="#">Student Management</a>
+      <a href="#" class="active">Class Analytics</a>
+      <a href="#">Log out</a>
     </div>
   </div>
 
   <div class="main">
     <h1>Class Analytics</h1>
 
-    <div class="top-filters">
-      <div class="filter-group">
-        <label>Filter by Section</label>
-        <div class="filter-controls">
-          <select id="sectionFilter">
-            <option value="all">All Sections</option>
-            <option value="4E-G1">4E-G1</option>
-            <option value="4B-G1">4B-G1</option>
-            <option value="3A-G2">3A-G2</option>
-          </select>
-          <button class="reset-btn" onclick="resetSection()">Reset</button>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label>Date Range</label>
-        <div class="filter-controls">
-          <select id="dateFilter">
-            <option value="7">Last 7 Days</option>
-            <option value="30" selected>Last 30 Days</option>
-            <option value="90">Last 90 Days</option>
-            <option value="365">Last Year</option>
-          </select>
-          <button class="reset-btn" onclick="resetDate()">Reset</button>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label>Test Type</label>
-        <div class="filter-controls">
-          <select id="testFilter">
-            <option value="both">Both Tests</option>
-            <option value="bmi">BMI Only</option>
-            <option value="vo2">VO2 Max Only</option>
-            <option value="flexibility">Flexibility Only</option>
-          </select>
-          <button class="reset-btn" onclick="resetTest()">Reset</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="filter-cards">
+    <div class="filters">
       <div class="filter-card">
         <h3>Section</h3>
-        <p id="currentSection">All Sections</p>
+        <p>All Sections</p>
+        <button>More Info</button>
       </div>
       <div class="filter-card">
         <h3>Date Range</h3>
-        <p id="currentDate">Last 30 Days</p>
+        <p>Last 30 Days</p>
+        <button>More Info</button>
       </div>
       <div class="filter-card">
         <h3>Test Type</h3>
-        <p id="currentTest">Both Tests</p>
+        <p>Both Tests</p>
+        <button>More Info</button>
       </div>
     </div>
 
@@ -397,121 +260,24 @@
       <div class="chart">
         <h4>Average BMI Change</h4>
         <div class="bar-container">
-          <div class="bar-wrapper">
-            <div class="bar" id="bmiBar" style="height: 90px;"></div>
-            <span class="bar-label" id="bmiValue">22.4</span>
-          </div>
+          <div class="bar bar1"></div>
         </div>
       </div>
 
       <div class="chart">
         <h4>VO₂ Max Improvements</h4>
         <div class="bar-container">
-          <div class="bar-wrapper">
-            <div class="bar" id="vo2Bar1" style="height: 90px;"></div>
-            <span class="bar-label">Before</span>
-          </div>
-          <div class="bar-wrapper">
-            <div class="bar" id="vo2Bar2" style="height: 140px;"></div>
-            <span class="bar-label">After</span>
-          </div>
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
         </div>
       </div>
 
       <div class="chart">
-        <h4>Flexibility Score Distribution</h4>
-        <div class="donut" id="flexDonut"></div>
-        <p class="donut-label">Low | Medium | High</p>
+        <h4>Distribution of Flexibility Scores</h4>
+        <div class="donut"></div>
+        <p class="donut-label">0–10 | 11–20 | 31–50</p>
       </div>
     </div>
   </div>
-
-  <script>
-    // Mock data for different sections
-    const mockData = {
-      'all': { bmi: 22.4, vo2Before: 35, vo2After: 42, flex: [33, 33, 34] },
-      '4E-G1': { bmi: 21.8, vo2Before: 33, vo2After: 40, flex: [40, 35, 25] },
-      '4B-G1': { bmi: 23.1, vo2Before: 37, vo2After: 44, flex: [25, 40, 35] },
-      '3A-G2': { bmi: 22.0, vo2Before: 34, vo2After: 41, flex: [30, 35, 35] }
-    };
-
-    // Get filter elements
-    const sectionFilter = document.getElementById('sectionFilter');
-    const dateFilter = document.getElementById('dateFilter');
-    const testFilter = document.getElementById('testFilter');
-
-    // Get display elements
-    const currentSection = document.getElementById('currentSection');
-    const currentDate = document.getElementById('currentDate');
-    const currentTest = document.getElementById('currentTest');
-
-    // Chart elements
-    const bmiBar = document.getElementById('bmiBar');
-    const bmiValue = document.getElementById('bmiValue');
-    const vo2Bar1 = document.getElementById('vo2Bar1');
-    const vo2Bar2 = document.getElementById('vo2Bar2');
-    const flexDonut = document.getElementById('flexDonut');
-
-    // Add event listeners
-    sectionFilter.addEventListener('change', updateFilters);
-    dateFilter.addEventListener('change', updateFilters);
-    testFilter.addEventListener('change', updateFilters);
-
-    function updateFilters() {
-      // Update display cards
-      const sectionText = sectionFilter.options[sectionFilter.selectedIndex].text;
-      const dateText = dateFilter.options[dateFilter.selectedIndex].text;
-      const testText = testFilter.options[testFilter.selectedIndex].text;
-
-      currentSection.textContent = sectionText;
-      currentDate.textContent = dateText;
-      currentTest.textContent = testText;
-
-      // Update charts with filtered data
-      updateCharts(sectionFilter.value);
-    }
-
-    function updateCharts(section) {
-      const data = mockData[section];
-
-      // Update BMI chart
-      bmiBar.style.height = (data.bmi * 4) + 'px';
-      bmiValue.textContent = data.bmi;
-
-      // Update VO2 Max chart
-      vo2Bar1.style.height = (data.vo2Before * 3) + 'px';
-      vo2Bar2.style.height = (data.vo2After * 3) + 'px';
-
-      // Update Flexibility donut chart
-      const [low, med, high] = data.flex;
-      const total = low + med + high;
-      const lowDeg = (low / total) * 360;
-      const medDeg = (med / total) * 360;
-
-      flexDonut.style.background = `conic-gradient(
-        #e53935 0deg ${lowDeg}deg,
-        #ffa000 ${lowDeg}deg ${lowDeg + medDeg}deg,
-        #43a047 ${lowDeg + medDeg}deg 360deg
-      )`;
-    }
-
-    function resetSection() {
-      sectionFilter.value = 'all';
-      updateFilters();
-    }
-
-    function resetDate() {
-      dateFilter.value = '30';
-      updateFilters();
-    }
-
-    function resetTest() {
-      testFilter.value = 'both';
-      updateFilters();
-    }
-
-    // Initialize
-    updateFilters();
-  </script>
 </body>
 </html>

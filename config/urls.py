@@ -22,8 +22,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),  # Django's built-in admin
 
     # Your app pages:
-    path("", views.signup, name="signup"),
-    path("student-dashboard", views.dashboard, name="dashboard"),  # homepage
+    path("", views.dashboard, name="dashboard"),  # homepage
+    path("signup/", views.signup, name="signup"),
     path("personal-progress/", views.personal_progress, name="personal_progress"),
     path("class-analytics/", views.class_analytics, name="class_analytics"),
     path("pre-test-form/", views.pre_test_form, name="pre_test_form"),
@@ -33,7 +33,6 @@ urlpatterns = [
     path("update-profile/", views.update_profile, name="update_profile"),
     path("update-profile-posttest/", views.update_profile_posttest, name="update_profile_posttest"),
     path("view-student/", views.view_student, name="view_student"),
-    path("custom-admin/", views.admin_page, name="custom_admin_page"),  # your admin.html
-    path('login/', views.admin_login, name='admin_login'),
-    path('admin/', views.admin_page, name='admin_page'),
+    path("custom-admin/", views.admin_page, name="admin_page"),
+    path("login/", views.login_view, name="login"),  # your admin.html
 ]

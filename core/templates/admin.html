@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,9 +13,9 @@
     }
 
     body {
+      background-color: #f2f4f8;
       display: flex;
       height: 100vh;
-      background-color: #f2f4f8;
       overflow: hidden;
     }
 
@@ -29,7 +28,6 @@
       flex-direction: column;
       align-items: center;
       padding-top: 30px;
-      flex-shrink: 0;
     }
 
     .sidebar img {
@@ -47,122 +45,77 @@
 
     .nav {
       width: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
     .nav a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: block;
       color: white;
       text-decoration: none;
-      padding: 15px 20px;
+      padding: 15px;
+      text-align: left;
       font-weight: bold;
       font-size: 15px;
       border-left: 5px solid transparent;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
+      transition: 0.3s;
     }
 
-    .nav a::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 0;
-      background-color: rgba(255, 255, 255, 0.1);
-      transition: width 0.3s ease;
-      z-index: 0;
-    }
-
-    .nav a:hover::before {
-      width: 100%;
-    }
-
-    .nav a:hover {
+    .nav a:hover, .nav a.active {
       background-color: #a10000;
       border-left: 5px solid #fff;
-      padding-left: 25px;
-      transform: translateX(5px);
-    }
-
-    .nav a.active {
-      background-color: #a10000;
-      border-left: 5px solid #fff;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-    }
-
-    .nav a span {
-      position: relative;
-      z-index: 1;
     }
 
     /* Main Content */
     .main {
       flex: 1;
-      display: flex;
-      flex-direction: column;
       padding: 30px;
       overflow-y: auto;
     }
 
     .main h1 {
-      font-size: 24px;
+      font-size: 22px;
       margin-bottom: 25px;
-      color: #333;
     }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .card {
-      background-color: white;
-      border-radius: 12px;
-      padding: 25px;
+      background-color: #ccc;
+      border-radius: 10px;
+      padding: 20px;
       text-align: center;
       font-size: 16px;
       font-weight: 600;
       color: #222;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .card.dark {
-      background-color: #6b0000;
+      background-color: #666b75;
       color: white;
     }
 
     .card span {
       display: block;
-      font-size: 40px;
-      margin-top: 10px;
+      font-size: 36px;
+      margin-top: 8px;
       font-weight: bold;
     }
 
     /* Table Section */
     .recent {
       background: white;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 20px;
     }
 
     .recent h2 {
-      font-size: 20px;
+      font-size: 18px;
       color: #222;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     table {
@@ -172,34 +125,28 @@
     }
 
     th, td {
-      border: 1px solid #e0e0e0;
-      padding: 12px;
+      border: 1px solid #ddd;
+      padding: 10px;
       font-size: 14px;
     }
 
     th {
       background-color: #6b0000;
       color: white;
-      font-weight: 600;
     }
 
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
 
-    tr:hover {
-      background-color: #f0f0f0;
-    }
-
     .view-btn {
       background-color: #6b0000;
       color: white;
       border: none;
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color 0.2s;
     }
 
     .view-btn:hover {
@@ -217,12 +164,6 @@
         justify-content: space-around;
         height: auto;
         width: 100%;
-        padding: 15px 0;
-      }
-
-      .nav {
-        flex-direction: row;
-        width: auto;
       }
 
       .nav a {
@@ -242,13 +183,13 @@
 </head>
 <body>
   <div class="sidebar">
-    <img src="{% static 'images/bsulogo.png' %}" alt="BSU Logo">
+    <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
     <h2>Bulacan State University</h2>
     <div class="nav">
-      <a href="{% url 'admin_page' %}" class="active">Dashboard</a>
-      <a href="{% url 'student_management' %}">Student Management</a>
-      <a href="{% url 'class_analytics' %}">Class Analytics</a>
-      <a href="{% url 'signup' %}">Log out</a>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Student Management</a>
+      <a href="#">Class Analytics</a>
+      <a href="#">Log out</a>
     </div>
   </div>
 
