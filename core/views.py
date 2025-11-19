@@ -73,10 +73,15 @@ def signup(request):
         signup_form = StudentSignupForm()
         login_form = StudentLoginForm()
 
-    return render(request, "signup.html", {
-        "form": signup_form,          # register form
-        "login_form": login_form,     # login form
-    })
+    return render(
+        request,
+        "signup.html",
+        {
+            "form": signup_form,  # register form
+            "login_form": login_form,  # login form
+            "active_panel": "register",
+        },
+    )
 
 
 def login_view(request):
@@ -94,10 +99,15 @@ def login_view(request):
         login_form = StudentLoginForm()
         signup_form = StudentSignupForm()
 
-    return render(request, "signup.html", {
-        "form": signup_form,
-        "login_form": login_form,
-    })
+    return render(
+        request,
+        "signup.html",
+        {
+            "form": signup_form,
+            "login_form": login_form,
+            "active_panel": "login",
+        },
+    )
 
 
 
