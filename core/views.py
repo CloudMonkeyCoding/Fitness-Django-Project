@@ -1,3 +1,5 @@
+from decimal import InvalidOperation
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -85,10 +87,26 @@ def student_management(request):
 @login_required
 def student_progress(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
-    tests = student_profile.tests.all()
 
-    pre_test_entry = tests.filter(test_type=FitnessTestEntry.PRETEST).first()
-    post_test_entry = tests.filter(test_type=FitnessTestEntry.POSTTEST).first()
+    def latest_valid_entry(test_type):
+        for entry in student_profile.tests.filter(test_type=test_type):
+            try:
+                _ = (
+                    entry.bmi,
+                    entry.vo2_max,
+                    entry.flexibility,
+                    entry.strength,
+                    entry.agility,
+                    entry.speed,
+                    entry.endurance,
+                )
+            except InvalidOperation:
+                continue
+            return entry
+        return None
+
+    pre_test_entry = latest_valid_entry(FitnessTestEntry.PRETEST)
+    post_test_entry = latest_valid_entry(FitnessTestEntry.POSTTEST)
 
     return render(
         request,
