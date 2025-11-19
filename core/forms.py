@@ -86,28 +86,28 @@ class PreTestForm(forms.Form):
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0.1"),
-        widget=forms.NumberInput(attrs={"placeholder": "158"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Height (cm)",
     )
     weight_kg = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0.1"),
-        widget=forms.NumberInput(attrs={"placeholder": "52"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Weight (kg)",
     )
     vo2_max = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0.01"),
-        widget=forms.NumberInput(attrs={"placeholder": "39.1"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="VO₂ Max",
     )
     flexibility = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0"),
-        widget=forms.NumberInput(attrs={"placeholder": "20"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Flexibility",
         help_text="Measured in centimeters",
     )
@@ -115,7 +115,7 @@ class PreTestForm(forms.Form):
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0"),
-        widget=forms.NumberInput(attrs={"placeholder": "20"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Strength",
         help_text="Number of push-ups",
     )
@@ -123,21 +123,21 @@ class PreTestForm(forms.Form):
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0"),
-        widget=forms.NumberInput(attrs={"placeholder": "12"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Agility",
     )
     speed = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0"),
-        widget=forms.NumberInput(attrs={"placeholder": "7"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Speed",
     )
     endurance = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
         min_value=Decimal("0"),
-        widget=forms.NumberInput(attrs={"placeholder": "30"}),
+        widget=forms.NumberInput(attrs={"step": "1"}),
         label="Endurance",
     )
 
