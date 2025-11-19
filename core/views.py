@@ -89,6 +89,11 @@ def pretest_entry(request):
     return render(request, "pretest-entry.html", {"form": form})
 
 
+@login_required
+def post_test_entry(request):
+    return render(request, "posttest.html")
+
+
 def student_management(request):
     return render(request, "studentmanagement.html")
 

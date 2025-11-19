@@ -28,6 +28,7 @@ urlpatterns = [
     path("class-analytics/", views.class_analytics, name="class_analytics"),
     path("pre-test-form/", views.pre_test_form, name="pre_test_form"),
     path("pretest-entry/", views.pretest_entry, name="pretest_entry"),
+    path("posttest/", views.post_test_entry, name="posttest"),
     path("student-management/", views.student_management, name="student_management"),
     path("student-progress/", views.student_progress, name="student_progress"),
     path("update-profile/", views.update_profile, name="update_profile"),
