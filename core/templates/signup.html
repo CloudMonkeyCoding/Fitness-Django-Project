@@ -237,7 +237,7 @@
     </div>
   </header>
 
-  <div class="container" id="container">
+  <div class="container{% if active_panel == 'register' %} active{% endif %}" id="container">
     <!-- LOGIN -->
 <div class="login-panel">
   <div class="left">
@@ -280,7 +280,7 @@
         <input type="password" placeholder="Password" required>
         <button>Register</button> 
         {% endcomment %}
-        <form method="post">
+        <form method="post" action="{% url 'signup' %}">
           {% csrf_token %}
             <div>
               {{ form.full_name.errors }}
