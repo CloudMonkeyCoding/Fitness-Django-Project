@@ -270,17 +270,40 @@
       <table>
         <thead>
           <tr>
+            <th>Test</th>
             <th>Date</th>
-            <th>Weight</th>
-            <th>BMI Low</th>
-            <th>BMI Range</th>
-            <th>Target Low</th>
-            <th>Target</th>
+            <th>BMI</th>
+            <th>VO₂ Max</th>
+            <th>Flexibility</th>
+            <th>Strength</th>
+            <th>Agility</th>
+            <th>Speed</th>
+            <th>Endurance</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr>
+            <td>Pre-test</td>
+            <td>{% if pre_test %}{{ pre_test.created_at|date:"M d, Y" }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.bmi|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.flexibility|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.strength|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.agility|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.speed|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if pre_test %}{{ pre_test.endurance|floatformat:2 }}{% else %}—{% endif %}</td>
+          </tr>
+          <tr>
+            <td>Post-test</td>
+            <td>{% if post_test %}{{ post_test.created_at|date:"M d, Y" }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.bmi|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.flexibility|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.strength|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.agility|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.speed|floatformat:2 }}{% else %}—{% endif %}</td>
+            <td>{% if post_test %}{{ post_test.endurance|floatformat:2 }}{% else %}—{% endif %}</td>
+          </tr>
         </tbody>
       </table>
 
@@ -302,17 +325,26 @@
 
         <!-- Info Boxes -->
         <div class="info">
-          <div class="info-box">Height<span>5'11</span></div>
+          <div class="info-box">Pre-test BMI<span>{% if pre_test %}{{ pre_test.bmi|floatformat:2 }}{% else %}—{% endif %}</span></div>
+          <div class="info-box gray-box">Post-test BMI<span>{% if post_test %}{{ post_test.bmi|floatformat:2 }}{% else %}—{% endif %}</span></div>
 
-          <div class="info-box gray-box">Target Weight (Min)<span>MIN</span></div>
-          <div class="info-box gray-box">Target Weight (Max)<span>MAX</span></div>
+          <div class="info-box">Pre-test VO₂ Max<span>{% if pre_test %}{{ pre_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</span></div>
+          <div class="info-box gray-box">Post-test VO₂ Max<span>{% if post_test %}{{ post_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</span></div>
 
-          <div class="info-box">Normal BMI Range<span>18.5 - 24.9</span></div>
-          <div class="info-box">Current Weight Loss<span>—</span></div>
+          <div class="info-box">Strength (Pre / Post)<span>
+            {% if pre_test %}{{ pre_test.strength|floatformat:2 }}{% else %}—{% endif %}
+            /
+            {% if post_test %}{{ post_test.strength|floatformat:2 }}{% else %}—{% endif %}
+          </span></div>
+          <div class="info-box gray-box">Endurance (Pre / Post)<span>
+            {% if pre_test %}{{ pre_test.endurance|floatformat:2 }}{% else %}—{% endif %}
+            /
+            {% if post_test %}{{ post_test.endurance|floatformat:2 }}{% else %}—{% endif %}
+          </span></div>
 
           <div class="note">
-            Please enter all data in Gray (Height, Target Weight Min/Max).
-            Input weight in rows B2 and B3 to calculate your progress.
+            Use the pre-test and post-test forms to update your latest results.
+            Values shown above reflect your most recent submissions.
           </div>
         </div>
       </div>

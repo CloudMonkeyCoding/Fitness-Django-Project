@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import PreTestForm, StudentLoginForm, StudentSignupForm
-from .models import StudentProfile
+from .models import FitnessTestEntry, StudentProfile
 
 # Create your views here.
 
@@ -82,8 +82,22 @@ def student_management(request):
     return render(request, "studentmanagement.html")
 
 
+@login_required
 def student_progress(request):
-    return render(request, "studentprogress.html")
+    student_profile = get_object_or_404(StudentProfile, user=request.user)
+    tests = student_profile.tests.all()
+
+    pre_test_entry = tests.filter(test_type=FitnessTestEntry.PRETEST).first()
+    post_test_entry = tests.filter(test_type=FitnessTestEntry.POSTTEST).first()
+
+    return render(
+        request,
+        "studentprogress.html",
+        {
+            "pre_test": pre_test_entry,
+            "post_test": post_test_entry,
+        },
+    )
 
 
 def update_profile(request):
