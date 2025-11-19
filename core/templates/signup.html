@@ -130,7 +130,7 @@
     /* modern input style */
     .form-area input {
       width: 75%;
-      padding: 12px 15px;
+      padding: 7px 15px;
       margin: 8px 0;
       border: 2px solid transparent;
       border-radius: 10px;
@@ -239,30 +239,75 @@
 
   <div class="container" id="container">
     <!-- LOGIN -->
-    <div class="login-panel">
-      <div class="left">
-        <h1>Hello, Welcome!</h1>
-        <p>Don’t have an account?</p>
-        <button class="toggle-btn" id="showRegister">Register</button>
+<div class="login-panel">
+  <div class="left">
+    <h1>Hello, Welcome!</h1>
+    <p>Don’t have an account?</p>
+    <button class="toggle-btn" id="showRegister">Register</button>
+  </div>
+
+  <div class="form-area">
+    <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ login_form.non_field_errors }}
+
+      <div>
+        {{ login_form.username.errors }}
+        {{ login_form.username }}
       </div>
-      <div class="form-area">
-        <h2>Login</h2>
-        <input type="text" placeholder="Name" required>
-        <input type="password" placeholder="Password" required>
-        <a href="#" class="forgot">Forgot Password?</a>
-        <button>Login</button>
+
+      <div>
+        {{ login_form.password.errors }}
+        {{ login_form.password }}
       </div>
-    </div>
+
+      <a href="#" class="forgot">Forgot Password?</a>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
 
     <!-- REGISTER -->
     <div class="register-panel">
       <div class="form-area">
         <h2>Registration</h2>
+        {% comment %} 
         <input type="text" placeholder="Name" required>
         <input type="text" placeholder="Section" required>
         <input type="number" placeholder="Age" required>
         <input type="password" placeholder="Password" required>
-        <button>Register</button>
+        <button>Register</button> 
+        {% endcomment %}
+        <form method="post">
+          {% csrf_token %}
+            <div>
+              {{ form.full_name.errors }}
+              {{ form.full_name }}
+            </div>
+
+            <div>
+              {{ form.age.errors }}
+              {{ form.age }}
+            </div>
+
+            <div>
+              {{ form.section.errors }}
+              {{ form.section }}
+            </div>
+
+            <div>
+              {{ form.username.errors }}
+              {{ form.username }}
+            </div>
+
+            <div>
+              {{ form.password.errors }}
+              {{ form.password }}
+            </div>
+          <button type="submit">Sign up</button>
+        </form> 
       </div>
       <div class="right">
         <h1>Welcome Back!</h1>
