@@ -285,28 +285,25 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Pre-test</td>
-            <td>{% if pre_test %}{{ pre_test.created_at|date:"M d, Y" }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.bmi|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.flexibility|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.strength|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.agility|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.speed|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if pre_test %}{{ pre_test.endurance|floatformat:2 }}{% else %}—{% endif %}</td>
-          </tr>
-          <tr>
-            <td>Post-test</td>
-            <td>{% if post_test %}{{ post_test.created_at|date:"M d, Y" }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.bmi|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.flexibility|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.strength|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.agility|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.speed|floatformat:2 }}{% else %}—{% endif %}</td>
-            <td>{% if post_test %}{{ post_test.endurance|floatformat:2 }}{% else %}—{% endif %}</td>
-          </tr>
+          {% if test_entries %}
+            {% for entry in test_entries %}
+              <tr>
+                <td>{{ entry.get_test_type_display }}</td>
+                <td>{{ entry.created_at|date:"M d, Y" }}</td>
+                <td>{{ entry.bmi|floatformat:2 }}</td>
+                <td>{{ entry.vo2_max|floatformat:2 }}</td>
+                <td>{{ entry.flexibility|floatformat:2 }}</td>
+                <td>{{ entry.strength|floatformat:2 }}</td>
+                <td>{{ entry.agility|floatformat:2 }}</td>
+                <td>{{ entry.speed|floatformat:2 }}</td>
+                <td>{{ entry.endurance|floatformat:2 }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="9">No test entries recorded yet.</td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
 

@@ -1,4 +1,5 @@
 from decimal import Decimal, InvalidOperation
+from typing import List, Optional
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
@@ -64,6 +65,54 @@ def latest_valid_entry(student_profile: StudentProfile, test_type: str):
 
         return FitnessTestEntry.objects.filter(pk=entry_id).first()
     return None
+
+
+def valid_test_entries(student_profile: StudentProfile, test_type: Optional[str] = None) -> List[FitnessTestEntry]:
+    """
+    Return all valid FitnessTestEntry rows for the student (optionally filtered
+    by test type), ordered from newest to oldest.
+    """
+
+    query = (
+        """
+        SELECT
+            id,
+            CAST(bmi AS TEXT),
+            CAST(vo2_max AS TEXT),
+            CAST(flexibility AS TEXT),
+            CAST(strength AS TEXT),
+            CAST(agility AS TEXT),
+            CAST(speed AS TEXT),
+            CAST(endurance AS TEXT)
+        FROM core_fitnesstestentry
+        WHERE student_id = %s
+        """
+    )
+    params = [student_profile.id]
+
+    if test_type:
+        query += " AND test_type = %s"
+        params.append(test_type)
+
+    query += " ORDER BY created_at DESC"
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+
+    entries: List[FitnessTestEntry] = []
+    for row in rows:
+        entry_id, *metric_values = row
+        try:
+            [Decimal(str(value)) for value in metric_values]
+        except (InvalidOperation, TypeError, ValueError):
+            continue
+
+        entry = FitnessTestEntry.objects.filter(pk=entry_id).first()
+        if entry:
+            entries.append(entry)
+
+    return entries
 
 
 def signup(request):
@@ -216,8 +265,16 @@ def student_management(request):
 def student_progress(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
 
-    pre_test_entry = latest_valid_entry(student_profile, FitnessTestEntry.PRETEST)
-    post_test_entry = latest_valid_entry(student_profile, FitnessTestEntry.POSTTEST)
+    test_entries = valid_test_entries(student_profile)
+
+    pre_test_entry = next(
+        (entry for entry in test_entries if entry.test_type == FitnessTestEntry.PRETEST),
+        None,
+    )
+    post_test_entry = next(
+        (entry for entry in test_entries if entry.test_type == FitnessTestEntry.POSTTEST),
+        None,
+    )
 
     return render(
         request,
@@ -225,6 +282,7 @@ def student_progress(request):
         {
             "pre_test": pre_test_entry,
             "post_test": post_test_entry,
+            "test_entries": test_entries,
         },
     )
 
