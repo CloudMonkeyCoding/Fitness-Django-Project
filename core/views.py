@@ -66,7 +66,7 @@ def pre_test_form(request):
         if form.is_valid():
             form.save(student_profile)
             messages.success(request, "Pre-test data saved successfully.")
-            return redirect("pre_test_form")
+            return redirect("student_progress")
     else:
         form = PreTestForm()
 
