@@ -111,6 +111,28 @@
       margin-bottom: 20px;
     }
 
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .actions a {
+      background-color: #6b0000;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .actions a:hover {
+      background-color: #8a0a0a;
+      transform: translateY(-1px);
+    }
+
     /* Table */
     table {
       width: 100%;
@@ -148,28 +170,70 @@
       text-align: center;
     }
 
-    .bar {
+    .chart h4 {
+      margin-bottom: 10px;
+    }
+
+    .chart-rows {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .metric-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 140px;
+      gap: 6px;
+    }
+
+    .metric-label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .metric-bars {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      height: 180px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .metric-bar {
+      position: relative;
+      width: 48px;
+      border-radius: 6px 6px 0 0;
+      background-color: #6b0000;
       display: flex;
       align-items: flex-end;
-      justify-content: space-around;
-      height: 180px;
-      margin-top: 15px;
+      justify-content: center;
+      transition: height 0.3s ease;
     }
 
-    .bar div {
-      width: 40px;
-      background-color: #6b0000;
-      border-radius: 5px;
+    .metric-bar.post {
+      background-color: #888;
     }
 
-    .bar .gray {
-      background-color: #ccc;
+    .bar-value {
+      position: absolute;
+      top: -22px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 11px;
+      white-space: nowrap;
     }
 
-    .chart-labels {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 10px;
+    .bar-tag {
+      position: absolute;
+      bottom: -18px;
+      font-size: 11px;
+      color: #333;
       font-weight: bold;
     }
 
@@ -240,53 +304,76 @@
     <div class="main-content">
       <h3>My Fitness Progress</h3>
 
+      <div class="actions">
+        <a href="{% url 'pre_test_form' %}?tab=pre">Edit Pre-Test Entry</a>
+        <a href="{% url 'pre_test_form' %}?tab=post">{% if post_test %}Edit Post-Test Entry{% else %}Add Post-Test Entry{% endif %}</a>
+        {% if post_test %}
+          <a href="{% url 'pre_test_form' %}?tab=post&new=post">Add Another Post-Test</a>
+        {% endif %}
+      </div>
+
       <table>
         <thead>
           <tr>
+            <th>Test</th>
             <th>Date</th>
-            <th>Weight</th>
-            <th>BMI Low</th>
-            <th>BMI Range</th>
-            <th>Target Low</th>
-            <th>Target</th>
+            <th>BMI</th>
+            <th>VO₂ Max</th>
+            <th>Flexibility</th>
+            <th>Strength</th>
+            <th>Agility</th>
+            <th>Speed</th>
+            <th>Endurance</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-          <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          {% if test_entries %}
+            {% for entry in test_entries %}
+              <tr>
+                <td>{{ entry.get_test_type_display }}</td>
+                <td>{{ entry.created_at|date:"M d, Y" }}</td>
+                <td>{{ entry.bmi|floatformat:2 }}</td>
+                <td>{{ entry.vo2_max|floatformat:2 }}</td>
+                <td>{{ entry.flexibility|floatformat:2 }}</td>
+                <td>{{ entry.strength|floatformat:2 }}</td>
+                <td>{{ entry.agility|floatformat:2 }}</td>
+                <td>{{ entry.speed|floatformat:2 }}</td>
+                <td>{{ entry.endurance|floatformat:2 }}</td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="9">No test entries recorded yet.</td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
 
       <div class="progress-section">
         <!-- Chart Placeholder -->
         <div class="chart">
-          <h4>Weight vs Target Range</h4>
-          <div class="bar">
-            <div style="height:120px;"></div>
-            <div style="height:110px;"></div>
-            <div style="height:105px;" class="gray"></div>
-            <div style="height:90px;" class="gray"></div>
-          </div>
-          <div class="chart-labels">
-            <span>Weight</span>
-            <span>Target Range</span>
-          </div>
-        </div>
-
-        <!-- Info Boxes -->
-        <div class="info">
-          <div class="info-box">Height<span>5'11</span></div>
-
-          <div class="info-box gray-box">Target Weight (Min)<span>MIN</span></div>
-          <div class="info-box gray-box">Target Weight (Max)<span>MAX</span></div>
-
-          <div class="info-box">Normal BMI Range<span>18.5 - 24.9</span></div>
-          <div class="info-box">Current Weight Loss<span>—</span></div>
-
-          <div class="note">
-            Please enter all data in Gray (Height, Target Weight Min/Max).
-            Input weight in rows B2 and B3 to calculate your progress.
-          </div>
+          <h4>Pre vs Post Progress</h4>
+          {% if chart_metrics %}
+            <div class="chart-rows">
+              {% for metric in chart_metrics %}
+                <div class="metric-column">
+                  <div class="metric-label">{{ metric.label }}</div>
+                  <div class="metric-bars">
+                    <div class="metric-bar pre" style="height: {{ metric.pre_height }}px;">
+                      <span class="bar-value">{% if metric.pre_value is not None %}{{ metric.pre_value|floatformat:2 }}{% else %}—{% endif %}</span>
+                      <span class="bar-tag">Pre</span>
+                    </div>
+                    <div class="metric-bar post" style="height: {{ metric.post_height }}px;">
+                      <span class="bar-value">{% if metric.post_value is not None %}{{ metric.post_value|floatformat:2 }}{% else %}—{% endif %}</span>
+                      <span class="bar-tag">Post</span>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No valid test data available yet.</p>
+          {% endif %}
         </div>
       </div>
     </div>

@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bulacan State University | Pre-Test Entry</title>
-
+  <title>Bulacan State University | Post-Test Entry</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,21 +12,21 @@
 
     body {
       margin: 0;
-      background: #fff;
+      background: #f7f7f7;
       color: #000;
     }
 
-    /* ===== Header ===== */
+    /* Header */
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 40px;
+      padding: 12px 40px;
       border-bottom: 1px solid #ccc;
       background: #fff;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 5;
     }
 
     .header-left {
@@ -60,6 +59,7 @@
       gap: 10px;
     }
 
+    .header-right a,
     .header-right button {
       border: none;
       border-radius: 8px;
@@ -68,6 +68,7 @@
       font-size: 14px;
       cursor: pointer;
       transition: 0.3s;
+      text-decoration: none;
     }
 
     .dashboard-btn {
@@ -75,9 +76,7 @@
       color: #000;
     }
 
-    .dashboard-btn:hover {
-      background: #c5c5c5;
-    }
+    .dashboard-btn:hover { background: #c5c5c5; }
 
     .profile-btn {
       background: #800000;
@@ -91,12 +90,12 @@
       object-fit: cover;
     }
 
-    /* ===== Tabs ===== */
+    /* Tabs */
     .tab-container {
       display: flex;
       justify-content: center;
       background: #fff;
-      margin-top: 15px;
+      margin-top: 12px;
     }
 
     .tab {
@@ -123,7 +122,7 @@
       color: inherit;
     }
 
-    /* ===== Form Section ===== */
+    /* Form Area */
     .form-section {
       background: #fff;
       max-width: 1000px;
@@ -172,27 +171,47 @@
       color: #555;
     }
 
-    .btn-next {
+    .btn-row {
       grid-column: span 3;
-      justify-self: end;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
       background: #800000;
       color: #fff;
       border: none;
-      padding: 10px 40px;
+      padding: 10px 28px;
       border-radius: 25px;
       cursor: pointer;
       font-weight: 600;
       transition: 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .btn-next:hover {
-      background: #a00000;
+    .btn-primary:hover { background: #a00000; }
+
+    .helper-text {
+      grid-column: span 3;
+      background: #fff7f0;
+      border: 1px solid #ffd4ad;
+      color: #5c2a00;
+      padding: 12px 16px;
+      border-radius: 8px;
+      line-height: 1.5;
+      font-size: 14px;
     }
 
     @media (max-width: 768px) {
       header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 10px;
       }
 
       form {
@@ -200,82 +219,73 @@
         padding: 20px;
       }
 
-      .btn-next {
-        justify-self: center;
-      }
+      .btn-row { grid-column: span 1; }
+      .helper-text { grid-column: span 1; }
     }
   </style>
 </head>
-
 <body>
-  <!-- ===== Header ===== -->
   <header>
     <div class="header-left">
-      <img src="images/bsulogo.png" alt="BSU Logo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
       <div class="header-text">
         <h3>Bulacan State University</h3>
         <p>Student Fitness Profile</p>
       </div>
     </div>
-
     <div class="header-right">
-      <button class="dashboard-btn">Dashboard</button>
+      <a class="dashboard-btn" href="{% url 'student_progress' %}">Back to Progress</a>
       <button class="profile-btn">My Profile</button>
-      <img src="images/profile.jpg" alt="Profile" class="profile-pic">
+      <img class="profile-pic" src="https://via.placeholder.com/55" alt="Profile">
     </div>
   </header>
 
-  <!-- ===== Tabs ===== -->
   <div class="tab-container">
-    <button class="tab active">Pre Test Entry</button>
-    <button class="tab">
-      <a href="posttest.html">Post Test Update</a>
-    </button>
+    <button class="tab"><a href="{% url 'pre_test_form' %}">Pre-Test</a></button>
+    <button class="tab active">Post-Test</button>
   </div>
 
-  <!-- ===== Pre-Test Form ===== -->
-  <div class="form-section">
-    <div class="form-header">Pre-Test</div>
-    <form>
-      <div>
-        <label>Height (cm)</label>
-        <input type="text" value="158 cm" readonly>
-      </div>
-      <div>
-        <label>Weight (kg)</label>
-        <input type="text" value="52 kg" readonly>
-      </div>
-      <div>
-        <label>VO₂ Max</label>
-        <input type="text" value="39.1" readonly>
-      </div>
-      <div>
-        <label>Flexibility</label>
-        <input type="text" value="20 cm" readonly>
-      </div>
-      <div>
-        <label>Strength</label>
-        <select>
-          <option selected>20 push-ups</option>
-          <option>25 push-ups</option>
-          <option>30 push-ups</option>
-        </select>
-      </div>
-      <div>
-        <label>Agility</label>
-        <input type="text" value="12" readonly>
-      </div>
-      <div>
-        <label>Speed</label>
-        <input type="text" value="7" readonly>
-      </div>
-      <div>
-        <label>Endurance</label>
-        <input type="text" value="30" readonly>
-      </div>
+  <section class="form-section">
+    <div class="form-header">Post-Test Entry</div>
 
-      <button class="btn-next" type="button">Next</button>
+    <form method="post">
+      {% csrf_token %}
+
+      {% if messages or form.non_field_errors %}
+        <div class="helper-text">
+          {% if messages %}
+            {% for message in messages %}
+              <div>{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+
+          {% if form.non_field_errors %}
+            <div>
+              {% for error in form.non_field_errors %}
+                <div>{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% for field in form %}
+        <div>
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div style="color: #c00; font-size: 12px; margin-top: 6px;">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div class="btn-row">
+        <button class="btn-primary" type="submit">Save Post-Test Data</button>
+      </div>
     </form>
-  </div>
+  </section>
 </body>
 </html>

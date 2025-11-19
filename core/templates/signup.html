@@ -131,7 +131,7 @@
     /* modern input style */
     .form-area input {
       width: 75%;
-      padding: 12px 15px;
+      padding: 7px 15px;
       margin: 8px 0;
       border: 2px solid transparent;
       border-radius: 10px;
@@ -278,49 +278,77 @@
     </div>
   </header>
 
-  {% if messages %}
-  <div class="messages">
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  </div>
-  {% endif %}
-
-  <div class="container" id="container">
+  <div class="container{% if active_panel == 'register' %} active{% endif %}" id="container">
     <!-- LOGIN -->
-    <div class="login-panel">
-      <div class="left">
-        <h1>Hello, Welcome!</h1>
-        <p>Don't have an account?</p>
-        <button class="toggle-btn" id="showRegister">Register</button>
+<div class="login-panel">
+  <div class="left">
+    <h1>Hello, Welcome!</h1>
+    <p>Don’t have an account?</p>
+    <button class="toggle-btn" id="showRegister">Register</button>
+  </div>
+
+  <div class="form-area">
+    <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      {{ login_form.non_field_errors }}
+
+      <div>
+        {{ login_form.username.errors }}
+        {{ login_form.username }}
       </div>
-      <div class="form-area">
-        <h2>Login</h2>
-        <form method="POST" action="{% url 'admin_login' %}">
-          {% csrf_token %}
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <a href="#" class="forgot">Forgot Password?</a>
-          <button type="submit">Login</button>
-        </form>
+
+      <div>
+        {{ login_form.password.errors }}
+        {{ login_form.password }}
       </div>
-    </div>
+
+      <a href="#" class="forgot">Forgot Password?</a>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
 
     <!-- REGISTER -->
     <div class="register-panel">
       <div class="form-area">
         <h2>Registration</h2>
-        <form method="POST" action="{% url 'signup' %}">
+        {% comment %} 
+        <input type="text" placeholder="Name" required>
+        <input type="text" placeholder="Section" required>
+        <input type="number" placeholder="Age" required>
+        <input type="password" placeholder="Password" required>
+        <button>Register</button> 
+        {% endcomment %}
+        <form method="post" action="{% url 'signup' %}">
           {% csrf_token %}
-          <input type="text" name="username" placeholder="Username" required>
-          <input type="email" name="email" placeholder="Email" required>
-          <input type="text" name="first_name" placeholder="First Name" required>
-          <input type="text" name="last_name" placeholder="Last Name" required>
-          <input type="password" name="password" placeholder="Password" required>
-          <button type="submit">Register</button>
-        </form>
+            <div>
+              {{ form.full_name.errors }}
+              {{ form.full_name }}
+            </div>
+
+            <div>
+              {{ form.age.errors }}
+              {{ form.age }}
+            </div>
+
+            <div>
+              {{ form.section.errors }}
+              {{ form.section }}
+            </div>
+
+            <div>
+              {{ form.username.errors }}
+              {{ form.username }}
+            </div>
+
+            <div>
+              {{ form.password.errors }}
+              {{ form.password }}
+            </div>
+          <button type="submit">Sign up</button>
+        </form> 
       </div>
       <div class="right">
         <h1>Welcome Back!</h1>
