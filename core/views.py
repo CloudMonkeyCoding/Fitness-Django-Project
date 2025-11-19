@@ -7,6 +7,7 @@ from django.core.management import call_command
 from django.db import connection
 from django.db.utils import OperationalError
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
 from .forms import PostTestForm, PreTestForm, StudentLoginForm, StudentSignupForm
 from .models import FitnessTestEntry, StudentProfile
@@ -26,6 +27,35 @@ def ensure_auth_tables():
 
 def dashboard(request):
     return render(request, "dashboard.html")
+
+
+def latest_valid_entry(student_profile: StudentProfile, test_type: str):
+    """
+    Return the newest FitnessTestEntry for the given student/test type that has
+    valid decimal values.
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT id, bmi, vo2_max, flexibility, strength, agility, speed, endurance
+            FROM core_fitnesstestentry
+            WHERE student_id = %s AND test_type = %s
+            ORDER BY created_at DESC
+            """,
+            [student_profile.id, test_type],
+        )
+        rows = cursor.fetchall()
+
+    for row in rows:
+        entry_id, *metric_values = row
+        try:
+            [Decimal(str(value)) for value in metric_values]
+        except (InvalidOperation, TypeError, ValueError):
+            continue
+
+        return FitnessTestEntry.objects.filter(pk=entry_id).first()
+    return None
 
 
 def signup(request):
@@ -83,32 +113,72 @@ def class_analytics(request):
 def pre_test_form(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
 
-    if request.method == "POST":
-        form = PreTestForm(request.POST)
-        if form.is_valid():
-            form.save(student_profile)
-            messages.success(request, "Pre-test data saved successfully.")
-            return redirect("student_progress")
-    else:
-        form = PreTestForm()
+    active_tab = "post" if request.GET.get("tab") == "post" else "pre"
 
-    return render(request, "pre-testform.html", {"form": form})
+    pre_latest = latest_valid_entry(student_profile, FitnessTestEntry.PRETEST)
+    post_latest = latest_valid_entry(student_profile, FitnessTestEntry.POSTTEST)
+
+    pre_initial = None
+    post_initial = None
+
+    if pre_latest:
+        pre_initial = {
+            "vo2_max": pre_latest.vo2_max,
+            "flexibility": pre_latest.flexibility,
+            "strength": pre_latest.strength,
+            "agility": pre_latest.agility,
+            "speed": pre_latest.speed,
+            "endurance": pre_latest.endurance,
+        }
+
+    if post_latest:
+        post_initial = {
+            "vo2_max": post_latest.vo2_max,
+            "flexibility": post_latest.flexibility,
+            "strength": post_latest.strength,
+            "agility": post_latest.agility,
+            "speed": post_latest.speed,
+            "endurance": post_latest.endurance,
+        }
+
+    if request.method == "POST":
+        active_tab = request.POST.get("active_tab", active_tab)
+
+        if active_tab == "post":
+            post_form = PostTestForm(request.POST)
+            pre_form = PreTestForm(initial=pre_initial)
+            if post_form.is_valid():
+                post_form.save(student_profile)
+                messages.success(request, "Post-test data saved successfully.")
+                return redirect("student_progress")
+        else:
+            pre_form = PreTestForm(request.POST)
+            post_form = PostTestForm(initial=post_initial)
+            if pre_form.is_valid():
+                pre_form.save(student_profile)
+                messages.success(request, "Pre-test data saved successfully.")
+                return redirect("student_progress")
+    else:
+        pre_form = PreTestForm(initial=pre_initial)
+        post_form = PostTestForm(initial=post_initial)
+
+    return render(
+        request,
+        "test-entry.html",
+        {
+            "pre_form": pre_form,
+            "post_form": post_form,
+            "active_tab": active_tab,
+        },
+    )
 
 
 @login_required
 def post_test_entry(request):
-    student_profile = get_object_or_404(StudentProfile, user=request.user)
-
+    redirect_url = f"{reverse('pre_test_form')}?tab=post"
     if request.method == "POST":
-        form = PostTestForm(request.POST)
-        if form.is_valid():
-            form.save(student_profile)
-            messages.success(request, "Post-test data saved successfully.")
-            return redirect("student_progress")
-    else:
-        form = PostTestForm()
-
-    return render(request, "posttest.html", {"form": form})
+        return redirect(redirect_url)
+    return redirect(redirect_url)
 
 
 def student_management(request):
@@ -119,32 +189,8 @@ def student_management(request):
 def student_progress(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
 
-    def latest_valid_entry(test_type):
-        with connection.cursor() as cursor:
-            cursor.execute(
-                """
-                SELECT id, bmi, vo2_max, flexibility, strength, agility, speed, endurance
-                FROM core_fitnesstestentry
-                WHERE student_id = %s AND test_type = %s
-                ORDER BY created_at DESC
-                """,
-                [student_profile.id, test_type],
-            )
-            rows = cursor.fetchall()
-
-        for row in rows:
-            entry_id, *metric_values = row
-            try:
-                # Validate that all metrics can be converted to Decimal before fetching the model instance.
-                [Decimal(str(value)) for value in metric_values]
-            except (InvalidOperation, TypeError, ValueError):
-                continue
-
-            return FitnessTestEntry.objects.filter(pk=entry_id).first()
-        return None
-
-    pre_test_entry = latest_valid_entry(FitnessTestEntry.PRETEST)
-    post_test_entry = latest_valid_entry(FitnessTestEntry.POSTTEST)
+    pre_test_entry = latest_valid_entry(student_profile, FitnessTestEntry.PRETEST)
+    post_test_entry = latest_valid_entry(student_profile, FitnessTestEntry.POSTTEST)
 
     return render(
         request,
