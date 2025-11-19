@@ -44,8 +44,6 @@ def login_view(request):
         "login_form": login_form,
     })
 
-
-
 def personal_progress(request):
     return render(request, "personalprogress.html")
 
