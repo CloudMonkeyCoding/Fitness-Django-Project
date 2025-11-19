@@ -375,31 +375,6 @@
             <p>No valid test data available yet.</p>
           {% endif %}
         </div>
-
-        <!-- Info Boxes -->
-        <div class="info">
-          <div class="info-box">Pre-test BMI<span>{% if pre_test %}{{ pre_test.bmi|floatformat:2 }}{% else %}—{% endif %}</span></div>
-          <div class="info-box gray-box">Post-test BMI<span>{% if post_test %}{{ post_test.bmi|floatformat:2 }}{% else %}—{% endif %}</span></div>
-
-          <div class="info-box">Pre-test VO₂ Max<span>{% if pre_test %}{{ pre_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</span></div>
-          <div class="info-box gray-box">Post-test VO₂ Max<span>{% if post_test %}{{ post_test.vo2_max|floatformat:2 }}{% else %}—{% endif %}</span></div>
-
-          <div class="info-box">Strength (Pre / Post)<span>
-            {% if pre_test %}{{ pre_test.strength|floatformat:2 }}{% else %}—{% endif %}
-            /
-            {% if post_test %}{{ post_test.strength|floatformat:2 }}{% else %}—{% endif %}
-          </span></div>
-          <div class="info-box gray-box">Endurance (Pre / Post)<span>
-            {% if pre_test %}{{ pre_test.endurance|floatformat:2 }}{% else %}—{% endif %}
-            /
-            {% if post_test %}{{ post_test.endurance|floatformat:2 }}{% else %}—{% endif %}
-          </span></div>
-
-          <div class="note">
-            Use the pre-test and post-test forms to update your latest results.
-            Values shown above reflect your most recent submissions.
-          </div>
-        </div>
       </div>
     </div>
   </div>
