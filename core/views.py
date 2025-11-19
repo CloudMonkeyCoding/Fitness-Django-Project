@@ -74,22 +74,6 @@ def pre_test_form(request):
 
 
 @login_required
-def pretest_entry(request):
-    student_profile = get_object_or_404(StudentProfile, user=request.user)
-
-    if request.method == "POST":
-        form = PreTestForm(request.POST)
-        if form.is_valid():
-            form.save(student_profile)
-            messages.success(request, "Pre-test data saved successfully.")
-            return redirect("pretest_entry")
-    else:
-        form = PreTestForm()
-
-    return render(request, "pretest-entry.html", {"form": form})
-
-
-@login_required
 def post_test_entry(request):
     return render(request, "posttest.html")
 
