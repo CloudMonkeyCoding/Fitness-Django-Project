@@ -263,8 +263,8 @@
       <h3>My Fitness Progress</h3>
 
       <div class="actions">
-        <a href="{% url 'pre_test_form' %}">Add Pre-Test Entry</a>
-        <a href="{% url 'posttest' %}">Add Post-Test Entry</a>
+        <a href="{% url 'pre_test_form' %}">Edit Pre-Test Entry</a>
+        <a href="{% url 'posttest' %}">{% if post_test %}Edit Post-Test Entry{% else %}Add Post-Test Entry{% endif %}</a>
       </div>
 
       <table>
