@@ -85,21 +85,21 @@ class PreTestForm(forms.Form):
     height_cm = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        min_value=Decimal("0.1"),
+        min_value=Decimal("1"),
         widget=forms.NumberInput(attrs={"step": "1"}),
         label="Height (cm)",
     )
     weight_kg = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        min_value=Decimal("0.1"),
+        min_value=Decimal("1"),
         widget=forms.NumberInput(attrs={"step": "1"}),
         label="Weight (kg)",
     )
     vo2_max = forms.DecimalField(
         max_digits=5,
         decimal_places=2,
-        min_value=Decimal("0.01"),
+        min_value=Decimal("0"),
         widget=forms.NumberInput(attrs={"step": "1"}),
         label="VO₂ Max",
     )
