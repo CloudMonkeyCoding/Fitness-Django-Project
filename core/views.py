@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import login, logout
-from .forms import StudentSignupForm, StudentLoginForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import PreTestForm, StudentLoginForm, StudentSignupForm
+from .models import StudentProfile
 
 # Create your views here.
 
@@ -54,8 +57,20 @@ def class_analytics(request):
     return render(request, "classanalytics.html")
 
 
+@login_required
 def pre_test_form(request):
-    return render(request, "pre-testform.html")
+    student_profile = get_object_or_404(StudentProfile, user=request.user)
+
+    if request.method == "POST":
+        form = PreTestForm(request.POST)
+        if form.is_valid():
+            form.save(student_profile)
+            messages.success(request, "Pre-test data saved successfully.")
+            return redirect("pre_test_form")
+    else:
+        form = PreTestForm()
+
+    return render(request, "pre-testform.html", {"form": form})
 
 
 def pretest_entry(request):

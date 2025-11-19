@@ -1,7 +1,9 @@
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import StudentProfile
+from .models import FitnessTestEntry, StudentProfile
 
 class StudentSignupForm(forms.Form):
     full_name = forms.CharField(
@@ -77,3 +79,99 @@ class StudentLoginForm(forms.Form):
             cleaned_data["user"] = user
 
         return cleaned_data
+
+
+class PreTestForm(forms.Form):
+    height_cm = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0.1"),
+        widget=forms.NumberInput(attrs={"placeholder": "158"}),
+        label="Height (cm)",
+    )
+    weight_kg = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0.1"),
+        widget=forms.NumberInput(attrs={"placeholder": "52"}),
+        label="Weight (kg)",
+    )
+    vo2_max = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0.01"),
+        widget=forms.NumberInput(attrs={"placeholder": "39.1"}),
+        label="VO₂ Max",
+    )
+    flexibility = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0"),
+        widget=forms.NumberInput(attrs={"placeholder": "20"}),
+        label="Flexibility",
+        help_text="Measured in centimeters",
+    )
+    strength = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0"),
+        widget=forms.NumberInput(attrs={"placeholder": "20"}),
+        label="Strength",
+        help_text="Number of push-ups",
+    )
+    agility = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0"),
+        widget=forms.NumberInput(attrs={"placeholder": "12"}),
+        label="Agility",
+    )
+    speed = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0"),
+        widget=forms.NumberInput(attrs={"placeholder": "7"}),
+        label="Speed",
+    )
+    endurance = forms.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        min_value=Decimal("0"),
+        widget=forms.NumberInput(attrs={"placeholder": "30"}),
+        label="Endurance",
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        height_cm = cleaned_data.get("height_cm")
+        weight_kg = cleaned_data.get("weight_kg")
+
+        if height_cm and weight_kg:
+            try:
+                height_m = Decimal(height_cm) / Decimal("100")
+                if height_m <= 0:
+                    raise forms.ValidationError("Height must be greater than zero.")
+                bmi = (Decimal(weight_kg) / (height_m ** 2)).quantize(
+                    Decimal("0.01"), rounding=ROUND_HALF_UP
+                )
+                cleaned_data["bmi"] = bmi
+            except (InvalidOperation, ZeroDivisionError):
+                raise forms.ValidationError("Unable to calculate BMI from the provided values.")
+
+        return cleaned_data
+
+    def save(self, student: StudentProfile) -> FitnessTestEntry:
+        data = self.cleaned_data
+
+        return FitnessTestEntry.objects.create(
+            student=student,
+            test_type=FitnessTestEntry.PRETEST,
+            bmi=data["bmi"],
+            vo2_max=data["vo2_max"],
+            flexibility=data["flexibility"],
+            strength=data["strength"],
+            agility=data["agility"],
+            speed=data["speed"],
+            endurance=data["endurance"],
+        )
