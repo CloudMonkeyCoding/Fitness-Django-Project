@@ -124,12 +124,19 @@ def pre_test_form(request):
     student_profile = get_object_or_404(StudentProfile, user=request.user)
 
     active_tab = "post" if request.GET.get("tab") == "post" else "pre"
+    force_new_post = request.GET.get("new") == "post"
+
+    if force_new_post:
+        active_tab = "post"
 
     pre_latest = latest_valid_entry(student_profile, FitnessTestEntry.PRETEST)
     post_latest = latest_valid_entry(student_profile, FitnessTestEntry.POSTTEST)
 
     pre_initial = None
     post_initial = None
+
+    if force_new_post:
+        post_initial = None
 
     if pre_latest:
         pre_initial = {
@@ -141,7 +148,7 @@ def pre_test_form(request):
             "endurance": pre_latest.endurance,
         }
 
-    if post_latest:
+    if post_latest and not force_new_post:
         post_initial = {
             "vo2_max": post_latest.vo2_max,
             "flexibility": post_latest.flexibility,
@@ -153,13 +160,14 @@ def pre_test_form(request):
 
     if request.method == "POST":
         active_tab = request.POST.get("active_tab", active_tab)
+        force_new_post = force_new_post or request.POST.get("new_post") == "1"
 
         if active_tab == "post":
             post_form = PostTestForm(request.POST)
             pre_form = PreTestForm(initial=pre_initial)
             if post_form.is_valid():
                 post_form.save(student_profile)
-                messages.success(request, "Post-test data saved successfully.")
+                messages.success(request, "New post-test entry saved successfully.")
                 return redirect("student_progress")
         else:
             pre_form = PreTestForm(request.POST)
@@ -170,7 +178,7 @@ def pre_test_form(request):
                 return redirect("student_progress")
     else:
         pre_form = PreTestForm(initial=pre_initial)
-        post_form = PostTestForm(initial=post_initial)
+        post_form = PostTestForm(initial=None if force_new_post else post_initial)
 
     return render(
         request,
@@ -179,6 +187,7 @@ def pre_test_form(request):
             "pre_form": pre_form,
             "post_form": post_form,
             "active_tab": active_tab,
+            "new_post": force_new_post,
         },
     )
 

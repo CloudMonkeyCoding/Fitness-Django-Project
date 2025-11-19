@@ -265,6 +265,9 @@
       <div class="actions">
         <a href="{% url 'pre_test_form' %}?tab=pre">Edit Pre-Test Entry</a>
         <a href="{% url 'pre_test_form' %}?tab=post">{% if post_test %}Edit Post-Test Entry{% else %}Add Post-Test Entry{% endif %}</a>
+        {% if post_test %}
+          <a href="{% url 'pre_test_form' %}?tab=post&new=post">Add Another Post-Test</a>
+        {% endif %}
       </div>
 
       <table>

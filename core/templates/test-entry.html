@@ -263,6 +263,9 @@
       <form method="post" action="?tab=post">
         {% csrf_token %}
         <input type="hidden" name="active_tab" value="post">
+        {% if new_post %}
+          <input type="hidden" name="new_post" value="1">
+        {% endif %}
 
         {% if messages or post_form.non_field_errors %}
           <div class="helper-text">
