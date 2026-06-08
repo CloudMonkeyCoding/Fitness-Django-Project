@@ -51,6 +51,7 @@
       gap: 20px;
     }
 
+    .nav a,
     .nav button {
       background-color: #d9d9d9;
       color: black;
@@ -60,8 +61,11 @@
       cursor: pointer;
       font-weight: 500;
       font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
     }
 
+    .nav a.active,
     .nav button.active {
       background-color: #6b0000;
       color: white;
@@ -180,6 +184,9 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      color: #000;
     }
 
     .submit-btn:hover {
@@ -219,8 +226,8 @@
       </h2>
     </div>
     <div class="nav">
-      <button>Dashboard</button>
-      <button class="active">My Profile</button>
+      <a href="{% url 'student_progress' %}">Dashboard</a>
+      <a class="active" href="{% url 'update_profile' %}">My Profile</a>
       <div class="profile">
         <img src="https://i.pravatar.cc/100" alt="Profile" />
       </div>
@@ -256,7 +263,7 @@
 
         <div class="btn-row">
           <button type="submit" class="submit-btn">Submit</button>
-          <button type="button" class="logout-btn">Log out</button>
+          <a class="logout-btn" href="{% url 'logout' %}">Log out</a>
         </div>
       </form>
     </div>

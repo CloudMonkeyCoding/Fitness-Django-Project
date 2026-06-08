@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Default profile avatar</title>
+  <desc id="desc">A circular maroon and gray default user avatar.</desc>
+  <rect width="128" height="128" rx="64" fill="#f2f2f2"/>
+  <circle cx="64" cy="48" r="24" fill="#7b1113"/>
+  <path d="M22 116c5.5-27.5 24-42 42-42s36.5 14.5 42 42" fill="#7b1113"/>
+  <circle cx="64" cy="64" r="61" fill="none" stroke="#cccccc" stroke-width="6"/>
+</svg>

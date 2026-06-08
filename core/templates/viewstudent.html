@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -104,7 +105,7 @@
 <body>
 
 <header>
-    <img src="/images/bsulogo.png" alt="BSU Logo">
+    <img src="{% static 'images/bsulogo.png' %}" alt="BSU Logo">
     <div>
         <h1>Bulacan State University</h1>
         <p>Student Fitness Profile</p>
@@ -148,7 +149,7 @@
     </div>
 </div>
 
-<a href="/admin/dashboard.html" class="back-link">&lt; Back</a>
+<a href="{% url 'student_management' %}" class="back-link">&lt; Back</a>
 
 <script>
 const ctx = document.getElementById('fitnessChart').getContext('2d');

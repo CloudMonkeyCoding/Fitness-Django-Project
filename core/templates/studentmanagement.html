@@ -204,10 +204,10 @@
     <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Bulacan_State_University_Seal.png" alt="BSU Logo">
     <h2>Bulacan State University</h2>
     <div class="nav">
-      <a href="#">Dashboard</a>
-      <a href="#" class="active">Student Management</a>
-      <a href="#">Class Analytics</a>
-      <a href="#">Log out</a>
+      <a href="{% url 'admin_page' %}">Dashboard</a>
+      <a href="{% url 'student_management' %}" class="active">Student Management</a>
+      <a href="{% url 'class_analytics' %}">Class Analytics</a>
+      <a href="{% url 'logout' %}">Log out</a>
     </div>
   </div>
 

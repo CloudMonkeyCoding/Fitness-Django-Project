@@ -72,6 +72,7 @@
       align-items: center;
     }
 
+    .nav-buttons a,
     .nav-buttons button {
       border: none;
       padding: 8px 18px;
@@ -79,6 +80,8 @@
       border-radius: 8px;
       cursor: pointer;
       transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .nav-buttons .active {
@@ -294,8 +297,8 @@
         </div>
       </div>
       <div class="nav-buttons">
-        <button class="active">Dashboard</button>
-        <button class="inactive">My Profile</button>
+        <a class="active" href="{% url 'student_progress' %}">Dashboard</a>
+        <a class="inactive" href="{% url 'update_profile' %}">My Profile</a>
         <img src="https://via.placeholder.com/40" alt="Student Photo">
       </div>
     </div>

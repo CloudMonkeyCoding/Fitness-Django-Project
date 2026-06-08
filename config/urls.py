@@ -35,4 +35,5 @@ urlpatterns = [
     path("view-student/", views.view_student, name="view_student"),
     path("custom-admin/", views.admin_page, name="admin_page"),
     path("login/", views.login_view, name="login"),  # your admin.html
+    path("logout/", views.logout_view, name="logout"),
 ]

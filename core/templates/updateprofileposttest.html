@@ -58,6 +58,7 @@
       gap: 15px;
     }
 
+    .nav a,
     .nav button {
       background-color: #6b0000;
       color: white;
@@ -66,13 +67,17 @@
       padding: 8px 16px;
       cursor: pointer;
       font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
     }
 
+    .nav a:nth-child(1),
     .nav button:nth-child(1) {
       background-color: #d9d9d9;
       color: black;
     }
 
+    .nav a:hover,
     .nav button:hover {
       background-color: #800000;
       color: white;
@@ -205,8 +210,8 @@
         </h2>
       </div>
       <div class="nav">
-        <button>Dashboard</button>
-        <button>My Profile</button>
+        <a href="{% url 'student_progress' %}">Dashboard</a>
+        <a href="{% url 'update_profile' %}">My Profile</a>
         <div class="profile">
           <img src="https://i.pravatar.cc/100" alt="Profile" />
         </div>
