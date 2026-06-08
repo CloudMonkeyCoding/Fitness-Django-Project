@@ -103,3 +103,6 @@ pytestdebug.log
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# Locally supplied static image binaries
+core/static/images/*.png

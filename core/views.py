@@ -166,6 +166,11 @@ def login_view(request):
         },
     )
 
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")
+
 def personal_progress(request):
     return render(request, "personalprogress.html")
 

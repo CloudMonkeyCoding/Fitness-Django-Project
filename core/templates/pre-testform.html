@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -22,7 +23,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: url('images/aksnfasfa.png') center/cover no-repeat;
+      background: url("{% static 'images/aksnfasfa.png' %}") center/cover no-repeat;
       filter: blur(6px);
       transform: scale(1.05);
       z-index: -1;
@@ -163,7 +164,7 @@
 </head>
 <body>
   <header>
-    <img class="logo" src="images/bsulogo.png" alt="BSU Logo" />
+    <img class="logo" src="{% static 'images/bsulogo.png' %}" alt="BSU Logo" />
     <div class="header-text">
       <h3>Bulacan State University</h3>
       <p>Student Fitness Profile</p>
